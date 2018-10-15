@@ -1,0 +1,214 @@
+(*
+    until => executa o estado em que está e transiciona para outro estado
+    unless => transiciona para outro estado e executa o novo estado
+*)
+
+(*
+	Implementa a política de consumo de energia
+*)
+
+type modes = Minimal | Eco | Comfort
+node management_policy(eco_input, comfort_input: bool) returns (mode: modes)
+let
+	automaton
+		state MINIMAL_SAFETY do
+			mode = Minimal
+			unless eco_input then ECO 
+					| comfort_input then COMFORT
+	     	state ECO do
+			mode = Eco
+		        unless comfort_input then COMFORT  
+					| not eco_input then MINIMAL_SAFETY
+		state COMFORT do
+			mode = Comfort
+			unless not comfort_input then MINIMAL_SAFETY 
+					| eco_input then ECO
+	end
+tel
+
+(*
+	Implementa o comportamento do forno
+*)
+node oven(f, s, c, cold, temp_ok: bool) returns (s1,p1:int)
+let
+	automaton
+		state OFF do
+			s1 = 0; p1 = 0;
+			unless s & not c then STANDBY 
+					| s & c then HEAT
+		state STANDBY do
+			s1 = 1; p1 = 0;
+			unless c then HEAT
+		state HEAT do
+		        s1 = 2; p1 = 1500;
+			unless f then OFF 
+					| temp_ok then MAINTAIN
+		state MAINTAIN do
+		        s1 = 3; p1 = 300;
+			unless cold & c then REHEAT
+					| f then OFF
+		state REHEAT do
+		        s1 = 4; p1 = 1000;
+			unless temp_ok then MAINTAIN
+	end 
+tel
+
+(*
+	Implementa o comportamento do aquecedor
+*)
+node radiator(u1, d1, u2, d2, c1, c2: bool) returns (s1,p1:int)
+let
+	automaton
+		state OFF do
+			s1 = 1; p1 = 0;
+			unless u1 or not c1 then FROST
+		state FROST do
+		        s1 = 2; p1 = 300;
+			unless u1 & c1 then ECO
+					| d1 or not c1 then OFF 
+					| u2 & c2 then HIGH
+		state ECO do
+		        s1 = 3; p1 = 1500;
+			unless u2 & c2 then HIGH 
+					| d1 or not c1 then FROST
+		state HIGH do
+			s1 = 4; p1 = 2000;
+			unless d2 or not c2 then FROST 
+					| d1 or not c1 then ECO
+	end 
+tel
+
+(*
+	Implementa o comportamento da sala
+*)
+node room(presence: bool) returns (r1:bool)
+let
+	automaton
+     		state EMPTY do
+       			r1 = false;
+     			unless presence then OCUPIED
+     		state OCUPIED do
+			r1 = true;
+     			unless not presence then EMPTY
+    	end 
+tel
+
+(*
+	Implementa o comportamento da porta
+*)
+node door(push, c: bool) returns (door_open:bool)
+let
+	automaton
+     		state CLOSED do
+       			door_open = false;
+     		unless push & c then OPEN
+     		state OPEN do
+        		door_open = true;
+    		unless push or not c then CLOSED
+	end 
+tel
+
+(*
+	Implementa o comportamento da porta
+*)
+node window(push, c: bool) returns (window_open:bool)
+let
+	automaton
+     		state CLOSED do
+       			window_open = false;
+     		unless push & c then OPEN
+     		state OPEN do
+        		window_open = true;
+     		unless push or not c then CLOSED
+    	end 
+tel
+
+(*
+	Implementa o comportamento da porta
+*)
+node tv(turn_on, c1, c2: bool) returns (tv_on:bool)
+let
+	automaton
+     		state OFF do
+       			tv_on = false;
+     		unless (turn_on & not c2) or c1 then ON
+     		state ON do
+        		tv_on = true;
+     		unless (turn_on & not c1) or c2 then OFF
+    	end 
+tel
+
+(*
+	Implementa o comportamento da lampada
+*)
+node lamp(turn_on, c1, c2: bool) returns (lamp_on:bool)
+let
+	automaton
+     		state OFF do
+       			lamp_on = false;
+     		unless (turn_on & c1) or not c2 then ON
+     		state ON do
+        		lamp_on = true;
+  		unless (turn_on & c2) or not c1 then OFF
+    	end 
+tel
+
+(*
+	Implementa o comportamento da máquina de lavar
+*)
+node washing_machine(e, s, c: bool) returns (s1,p1:int)
+let
+	automaton
+     		state OFF do
+        		s1 = 0; p1 = 0;
+     			unless s then WATER_FILL
+     		state WATER_FILL do
+        		s1 = 1; p1 = 15;
+     			unless e & not c then STANDBY 
+					| e & c then WASHING
+     		state STANDBY do
+        		s1 = 2; p1 = 0;
+     			unless c then WASHING
+     		state WASHING do
+        		s1 = 3; p1 = 250;
+     			unless e then RINSE
+     		state RINSE do
+        		s1 = 4; p1 = 200;
+     			unless e then SPIN
+     		state SPIN do
+        		s1 = 5; p1 = 800;
+     			unless e then OFF
+    	end 
+tel
+
+node controller(push_door, push_window, room_presence, lamp_switch, tv_switch, rad_up1, rad_down1, rad_up2, rad_down2, wash_start, wash_end, oven_start, oven_finish, oven_temp_ok, oven_cold, eco_input, comfort_input: bool ) returns (room_ocupied, door_open, window_open, lamp_on, tv_on: bool; rad_power, rad_state, wash_power, wash_state, oven_power, oven_state: int; policy: modes;)
+	contract 
+		var
+			rule1, rule2, rule3, rule4, rule5: bool; total_power: int;
+		let
+			rule1 = not room_ocupied  or (lamp_on or tv_on);
+			rule2 = room_ocupied or not (door_open or window_open);
+			rule3 = not (door_open or window_open) or (rad_state <= 2);
+			rule4 = room_ocupied or (not (lamp_on or tv_on) & (rad_state <= 2));
+			total_power = rad_power + wash_power + oven_power;
+			switch policy 
+							| Minimal do rule5 = total_power <= 3000 
+							| Eco do rule5 = total_power <= 5000 
+							| Comfort do rule5 = total_power <= 7000;
+			end
+		tel
+
+			enforce rule1 & rule2 & rule3 & rule4 & rule5
+			with (c_door, c_window, c_oven, rad_c1, rad_c2, c1_lamp, c1_tv, c2_lamp,  c2_tv, c_wash: bool )
+
+		let
+			door_open =  inlined door(push_door, c_door);
+			window_open =  inlined window(push_window, c_window);
+			room_ocupied = inlined room(room_presence);
+			lamp_on =  inlined lamp(lamp_switch, c1_lamp, c2_lamp);
+			tv_on =  inlined lamp(tv_switch, c1_tv, c2_tv);
+			(rad_state, rad_power) = inlined radiator(rad_up1, rad_down1, rad_up2, rad_down2, rad_c1, rad_c2);
+			(oven_state, oven_power) = inlined oven(oven_finish, oven_start, c_oven, oven_cold, oven_temp_ok);
+			(wash_state, wash_power) = inlined washing_machine(wash_end, wash_start, c_wash);
+			policy = inlined management_policy(eco_input, comfort_input);
+		tel
