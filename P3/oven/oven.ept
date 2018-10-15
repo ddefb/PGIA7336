@@ -1,0 +1,33 @@
+(*
+    until => executa o estado em que está e transiciona para outro estado
+    unless => transiciona para outro estado e executa o novo estado
+*)
+
+node oven_model(f, s, c, cold, temp_ok: bool) returns (s1,p1:int)
+let
+    automaton
+     state OFF do
+        s1 = 0; p1 = 0;
+     unless s & not c then STANDBY 
+     | s & c then HEAT
+     state STANDBY do
+        s1 = 1; p1 = 0;
+     unless c then HEAT
+     state HEAT do
+        s1 = 2; p1 = 1500;
+     unless f then OFF
+     | temp_ok then MAINTAIN
+     state MAINTAIN do
+        s1 = 3; p1 = 300;
+     unless cold & c then REHEAT
+     | f then OFF
+     state REHEAT do
+        s1 = 4; p1 = 1000;
+     unless temp_ok then MAINTAIN
+    end 
+tel
+
+node oven(f, s, c, cold, temp_ok: bool) returns (s1,p1: int)
+let
+    (s1,p1) = inlined oven_model(f, s, c, cold, temp_ok);
+tel

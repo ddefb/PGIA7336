@@ -1,0 +1,34 @@
+(*
+    until => executa o estado em que está e transiciona para outro estado
+    unless => transiciona para outro estado e executa o novo estado
+*)
+
+node washing_machine(e, s, c: bool) returns (s1,p1:int)
+let
+    automaton
+     state OFF do
+        s1 = 0; p1 = 0;
+     unless s then WATER_FILL
+     state WATER_FILL do
+        s1 = 1; p1 = 15;
+     unless e & not c then STANDBY 
+     | e & c then WASHING
+     state STANDBY do
+        s1 = 2; p1 = 0;
+     unless c then WASHING
+     state WASHING do
+        s1 = 3; p1 = 250;
+     unless e then RINSE
+     state RINSE do
+        s1 = 4; p1 = 200;
+     unless e then SPIN
+     state SPIN do
+        s1 = 5; p1 = 800;
+     unless e then OFF
+    end 
+tel
+
+node onetask(e, s, c: bool) returns (s1,p1: int)
+let
+    (s1,p1) = inlined washing_machine(e, s, c);
+tel
