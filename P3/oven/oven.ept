@@ -3,7 +3,7 @@
     unless => transiciona para outro estado e executa o novo estado
 *)
 
-node oven_model(f, s, c, cold, temp_ok: bool) returns (s1,p1:int)
+node oven(f, s, c, cold, temp_ok: bool) returns (s1,p1:int)
 let
     automaton
      state OFF do
@@ -24,10 +24,11 @@ let
      state REHEAT do
         s1 = 4; p1 = 1000;
      unless temp_ok then MAINTAIN
+     | f then OFF
     end 
 tel
 
-node oven(f, s, c, cold, temp_ok: bool) returns (s1,p1: int)
+node onetask(f, s, c, cold, temp_ok: bool) returns (s1,p1: int)
 let
-    (s1,p1) = inlined oven_model(f, s, c, cold, temp_ok);
+    (s1,p1) = inlined oven(f, s, c, cold, temp_ok);
 tel

@@ -1,0 +1,1129 @@
+type st_1 = St_1_STANDBY|St_1_REHEAT|St_1_OFF|St_1_MAINTAIN|St_1_HEAT
+type st = St_STANDBY|St_REHEAT|St_OFF|St_MAINTAIN|St_HEAT
+node oven(f : bool; s : bool; c : bool; cold : bool; temp_ok : bool)
+returns (s1 : int; p1 : int)
+var v_52 : bool; v_51 : bool; v_50 : bool; v_49 : bool; v_48 : bool;
+    v_47 : bool; v_46 : bool; v_45 : bool; v_44 : bool; v_43 : bool;
+    v_42 : bool; v_41 : bool; v_40 : bool; v_39 : bool; v_38 : bool;
+    v_37 : bool; v_36 : bool; v_35 : bool; v_34 : bool; v_33 : bool;
+    v_32 : int; v_31 : int; v_30 : int; v_29 : int; v_28 : int; v_27 : int;
+    v_26 : int; v_25 : int; v_24 : int; v_23 : int; ns_St_REHEAT_2_0 : bool;
+    ns_St_REHEAT_3_0_0 : bool; ns_St_REHEAT_3_0_1 : bool;
+    ns_St_REHEAT_2_1 : bool; ns_St_REHEAT_3_1_0 : bool;
+    ns_St_REHEAT_3_1_1 : bool; ns_St_MAINTAIN_2_0 : bool;
+    ns_St_MAINTAIN_3_0_0 : bool; ns_St_MAINTAIN_3_0_1 : bool;
+    ns_St_MAINTAIN_2_1 : bool; ns_St_MAINTAIN_3_1_0 : bool;
+    ns_St_MAINTAIN_3_1_1 : bool; ns_St_HEAT_2_0 : bool;
+    ns_St_HEAT_3_0_0 : bool; ns_St_HEAT_3_0_1 : bool; ns_St_HEAT_2_1 : bool;
+    ns_St_HEAT_3_1_0 : bool; ns_St_HEAT_3_1_1 : bool;
+    ns_St_STANDBY_2_0 : bool; ns_St_STANDBY_3_0_0 : bool;
+    ns_St_STANDBY_3_0_1 : bool; ns_St_STANDBY_2_1 : bool;
+    ns_St_STANDBY_3_1_0 : bool; ns_St_STANDBY_3_1_1 : bool;
+    ns_St_OFF_2_0 : bool; ns_St_OFF_3_0_0 : bool; ns_St_OFF_3_0_1 : bool;
+    ns_St_OFF_2_1 : bool; ns_St_OFF_3_1_0 : bool; ns_St_OFF_3_1_1 : bool;
+    ck_1_2_0 : bool; ck_1_3_0_0 : bool; ck_1_3_0_1 : bool; ck_1_2_1 : bool;
+    ck_1_3_1_0 : bool; ck_1_3_1_1 : bool; nr_St_REHEAT : bool;
+    ns_St_REHEAT_3 : bool; ns_St_REHEAT_2 : bool; ns_St_REHEAT_1 : bool;
+    p1_St_REHEAT : int; s1_St_REHEAT : int; nr_St_MAINTAIN : bool;
+    ns_St_MAINTAIN_3 : bool; ns_St_MAINTAIN_2 : bool;
+    ns_St_MAINTAIN_1 : bool; p1_St_MAINTAIN : int; s1_St_MAINTAIN : int;
+    nr_St_HEAT : bool; ns_St_HEAT_3 : bool; ns_St_HEAT_2 : bool;
+    ns_St_HEAT_1 : bool; p1_St_HEAT : int; s1_St_HEAT : int;
+    nr_St_STANDBY : bool; ns_St_STANDBY_3 : bool; ns_St_STANDBY_2 : bool;
+    ns_St_STANDBY_1 : bool; p1_St_STANDBY : int; s1_St_STANDBY : int;
+    nr_St_OFF : bool; ns_St_OFF_3 : bool; ns_St_OFF_2 : bool;
+    ns_St_OFF_1 : bool; p1_St_OFF : int; s1_St_OFF : int; ck_1_3 : bool;
+    ck_1_2 : bool; ck_1_1 : bool; v_10_2_0 : bool; v_10_3_0_0 : bool;
+    v_10_3_0_1 : bool; v_10_2_1 : bool; v_10_3_1_0 : bool; v_10_3_1_1 : bool;
+    v_11 : bool; v_10_3 : bool; v_10_2 : bool; v_10_1 : bool; v_9 : bool;
+    v_8 : bool; v_7 : bool; v_5_2_0 : bool; v_5_3_0_0 : bool;
+    v_5_3_0_1 : bool; v_5_2_1 : bool; v_5_3_1_0 : bool; v_5_3_1_1 : bool;
+    v_6 : bool; v_5_3 : bool; v_5_2 : bool; v_5_1 : bool; v_3_2_0 : bool;
+    v_3_3_0_0 : bool; v_3_3_0_1 : bool; v_3_2_1 : bool; v_3_3_1_0 : bool;
+    v_3_3_1_1 : bool; v_4 : bool; v_3_3 : bool; v_3_2 : bool; v_3_1 : bool;
+    v_2 : bool; v_2_1_0 : bool; v_3_4_0_0 : bool; v_3_4_0_1 : bool;
+    v_2_1_1 : bool; v_3_4_1_0 : bool; v_3_4_1_1 : bool; v_1 : bool;
+    v_3_4 : bool; v_2_1 : bool; v_1_1 : bool; v_75 : bool; v_74 : bool;
+    v_73 : bool; v_72 : bool; v_71 : bool; v_70 : bool; v_69 : bool;
+    v_68 : bool; v_67 : bool; v_66 : bool; v_65 : bool; v_64 : bool;
+    v_63 : bool; v_62 : bool; v_61 : bool; v_60 : bool; v_59 : bool;
+    v_58 : bool; v_57 : bool; v_56 : bool; v_55 : bool; v_54 : bool;
+    v_53 : bool; s_2_St_REHEAT_2_0 : bool; s_2_St_REHEAT_3_0_0 : bool;
+    s_2_St_REHEAT_3_0_1 : bool; s_2_St_REHEAT_2_1 : bool;
+    s_2_St_REHEAT_3_1_0 : bool; s_2_St_REHEAT_3_1_1 : bool;
+    s_2_St_MAINTAIN_2_0 : bool; s_2_St_MAINTAIN_3_0_0 : bool;
+    s_2_St_MAINTAIN_3_0_1 : bool; s_2_St_MAINTAIN_2_1 : bool;
+    s_2_St_MAINTAIN_3_1_0 : bool; s_2_St_MAINTAIN_3_1_1 : bool;
+    s_2_St_HEAT_2_0 : bool; s_2_St_HEAT_3_0_0 : bool;
+    s_2_St_HEAT_3_0_1 : bool; s_2_St_HEAT_2_1 : bool;
+    s_2_St_HEAT_3_1_0 : bool; s_2_St_HEAT_3_1_1 : bool;
+    s_2_St_STANDBY_2_0 : bool; s_2_St_STANDBY_3_0_0 : bool;
+    s_2_St_STANDBY_3_0_1 : bool; s_2_St_STANDBY_2_1 : bool;
+    s_2_St_STANDBY_3_1_0 : bool; s_2_St_STANDBY_3_1_1 : bool;
+    s_2_St_OFF_2_0 : bool; s_2_St_OFF_3_0_0 : bool; s_2_St_OFF_3_0_1 : bool;
+    s_2_St_OFF_2_1 : bool; s_2_St_OFF_3_1_0 : bool; s_2_St_OFF_3_1_1 : bool;
+    ck_2_0 : bool; ck_3_0_0 : bool; ck_3_0_1 : bool; ck_2_1 : bool;
+    ck_3_1_0 : bool; ck_3_1_1 : bool; r_St_REHEAT : bool;
+    s_2_St_REHEAT_3 : bool; s_2_St_REHEAT_2 : bool; s_2_St_REHEAT_1 : bool;
+    r_St_MAINTAIN : bool; s_2_St_MAINTAIN_3 : bool; s_2_St_MAINTAIN_2 : bool;
+    s_2_St_MAINTAIN_1 : bool; r_St_HEAT : bool; s_2_St_HEAT_3 : bool;
+    s_2_St_HEAT_2 : bool; s_2_St_HEAT_1 : bool; r_St_STANDBY : bool;
+    s_2_St_STANDBY_3 : bool; s_2_St_STANDBY_2 : bool;
+    s_2_St_STANDBY_1 : bool; r_St_OFF : bool; s_2_St_OFF_3 : bool;
+    s_2_St_OFF_2 : bool; s_2_St_OFF_1 : bool; ck_3 : bool; ck_2 : bool;
+    ck_1_4 : bool; s_2_2_0 : bool; s_2_3_0_0 : bool; s_2_3_0_1 : bool;
+    s_2_2_1 : bool; s_2_3_1_0 : bool; s_2_3_1_1 : bool; ns_2_0 : bool;
+    ns_3_0_0 : bool; ns_3_0_1 : bool; ns_2_1 : bool; ns_3_1_0 : bool;
+    ns_3_1_1 : bool; s_2_3 : bool; s_2_2 : bool; s_2_1 : bool; ns_3 : bool;
+    ns_2 : bool; ns_1 : bool; r : bool; nr : bool; pnr : bool;
+let
+  pnr = false fby nr;
+  ck_1_1 = s_2_1;
+  ck_1_2 = s_2_2;
+  ck_1_3 = s_2_3;
+  s1_St_OFF = 0;
+  p1_St_OFF = 0;
+  nr_St_OFF = false;
+  ns_St_OFF_1 = true;
+  ns_St_OFF_2 = false;
+  ns_St_OFF_3 = false;
+  s1_St_STANDBY = 1;
+  p1_St_STANDBY = 0;
+  nr_St_STANDBY = false;
+  ns_St_STANDBY_1 = false;
+  ns_St_STANDBY_2 = false;
+  ns_St_STANDBY_3 = false;
+  s1_St_HEAT = 2;
+  p1_St_HEAT = 1500;
+  nr_St_HEAT = false;
+  ns_St_HEAT_1 = true;
+  ns_St_HEAT_2 = true;
+  ns_St_HEAT_3 = true;
+  s1_St_MAINTAIN = 3;
+  p1_St_MAINTAIN = 300;
+  nr_St_MAINTAIN = false;
+  ns_St_MAINTAIN_1 = true;
+  ns_St_MAINTAIN_2 = true;
+  ns_St_MAINTAIN_3 = false;
+  s1_St_REHEAT = 4;
+  p1_St_REHEAT = 1000;
+  nr_St_REHEAT = false;
+  ns_St_REHEAT_1 = false;
+  ns_St_REHEAT_2 = false;
+  ns_St_REHEAT_3 = true;
+  v_23 = merge ck_1_3_1_1 (true -> s1_St_HEAT)(false -> s1_St_MAINTAIN);
+  v_24 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((0 when true(ck_1_1)) when false(ck_1_2_1)) when true(ck_1_3_1_0)))
+      (false -> s1_St_OFF);
+  v_25 = merge ck_1_2_1 (true -> v_23)(false -> v_24);
+  v_26 = merge ck_1_3_0_0 (true -> s1_St_REHEAT)(false -> s1_St_STANDBY);
+  v_27 =
+    merge ck_1_2_0
+      (true -> ((0 when false(ck_1_1)) when true(ck_1_2_0)))(false -> v_26);
+  s1 = merge ck_1_1 (true -> v_25)(false -> v_27);
+  v_28 = merge ck_1_3_1_1 (true -> p1_St_HEAT)(false -> p1_St_MAINTAIN);
+  v_29 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((0 when true(ck_1_1)) when false(ck_1_2_1)) when true(ck_1_3_1_0)))
+      (false -> p1_St_OFF);
+  v_30 = merge ck_1_2_1 (true -> v_28)(false -> v_29);
+  v_31 = merge ck_1_3_0_0 (true -> p1_St_REHEAT)(false -> p1_St_STANDBY);
+  v_32 =
+    merge ck_1_2_0
+      (true -> ((0 when false(ck_1_1)) when true(ck_1_2_0)))(false -> v_31);
+  p1 = merge ck_1_1 (true -> v_30)(false -> v_32);
+  v_33 = merge ck_1_3_1_1 (true -> ns_St_HEAT_1)(false -> ns_St_MAINTAIN_1);
+  v_34 = merge ck_1_3_1_1 (true -> ns_St_HEAT_2)(false -> ns_St_MAINTAIN_2);
+  v_35 = merge ck_1_3_1_1 (true -> ns_St_HEAT_3)(false -> ns_St_MAINTAIN_3);
+  v_36 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((true when true(ck_1_1)) when false(ck_1_2_1))
+          when true(ck_1_3_1_0)))
+      (false -> ns_St_OFF_1);
+  v_37 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((true when true(ck_1_1)) when false(ck_1_2_1))
+          when true(ck_1_3_1_0)))
+      (false -> ns_St_OFF_2);
+  v_38 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((true when true(ck_1_1)) when false(ck_1_2_1))
+          when true(ck_1_3_1_0)))
+      (false -> ns_St_OFF_3);
+  v_39 = merge ck_1_3_0_0 (true -> ns_St_REHEAT_1)(false -> ns_St_STANDBY_1);
+  v_40 = merge ck_1_3_0_0 (true -> ns_St_REHEAT_2)(false -> ns_St_STANDBY_2);
+  v_41 = merge ck_1_3_0_0 (true -> ns_St_REHEAT_3)(false -> ns_St_STANDBY_3);
+  v_42 = merge ck_1_2_1 (true -> v_33)(false -> v_36);
+  v_43 = merge ck_1_2_1 (true -> v_34)(false -> v_37);
+  v_44 = merge ck_1_2_1 (true -> v_35)(false -> v_38);
+  v_45 =
+    merge ck_1_2_0
+      (true -> ((true when false(ck_1_1)) when true(ck_1_2_0)))
+      (false -> v_39);
+  v_46 =
+    merge ck_1_2_0
+      (true -> ((true when false(ck_1_1)) when true(ck_1_2_0)))
+      (false -> v_40);
+  v_47 =
+    merge ck_1_2_0
+      (true -> ((true when false(ck_1_1)) when true(ck_1_2_0)))
+      (false -> v_41);
+  ns_1 = merge ck_1_1 (true -> v_42)(false -> v_45);
+  ns_2 = merge ck_1_1 (true -> v_43)(false -> v_46);
+  ns_3 = merge ck_1_1 (true -> v_44)(false -> v_47);
+  v_48 = merge ck_1_3_1_1 (true -> nr_St_HEAT)(false -> nr_St_MAINTAIN);
+  v_49 =
+    merge ck_1_3_1_0
+      (true -> 
+        (((true when true(ck_1_1)) when false(ck_1_2_1))
+          when true(ck_1_3_1_0)))
+      (false -> nr_St_OFF);
+  v_50 = merge ck_1_2_1 (true -> v_48)(false -> v_49);
+  v_51 = merge ck_1_3_0_0 (true -> nr_St_REHEAT)(false -> nr_St_STANDBY);
+  v_52 =
+    merge ck_1_2_0
+      (true -> ((true when false(ck_1_1)) when true(ck_1_2_0)))
+      (false -> v_51);
+  nr = merge ck_1_1 (true -> v_50)(false -> v_52);
+  ck_1_3_1_1 = ((ck_1_3 when true(ck_1_1)) when true(ck_1_2_1));
+  ck_1_3_1_0 = ((ck_1_3 when true(ck_1_1)) when false(ck_1_2_1));
+  ck_1_2_1 = (ck_1_2 when true(ck_1_1));
+  ck_1_3_0_1 = ((ck_1_3 when false(ck_1_1)) when true(ck_1_2_0));
+  ck_1_3_0_0 = ((ck_1_3 when false(ck_1_1)) when false(ck_1_2_0));
+  ck_1_2_0 = (ck_1_2 when false(ck_1_1));
+  ns_St_OFF_3_1_1 =
+    ((ns_St_OFF_3 when true(ns_St_OFF_1)) when true(ns_St_OFF_2_1));
+  ns_St_OFF_3_1_0 =
+    ((ns_St_OFF_3 when true(ns_St_OFF_1)) when false(ns_St_OFF_2_1));
+  ns_St_OFF_2_1 = (ns_St_OFF_2 when true(ns_St_OFF_1));
+  ns_St_OFF_3_0_1 =
+    ((ns_St_OFF_3 when false(ns_St_OFF_1)) when true(ns_St_OFF_2_0));
+  ns_St_OFF_3_0_0 =
+    ((ns_St_OFF_3 when false(ns_St_OFF_1)) when false(ns_St_OFF_2_0));
+  ns_St_OFF_2_0 = (ns_St_OFF_2 when false(ns_St_OFF_1));
+  ns_St_STANDBY_3_1_1 =
+    ((ns_St_STANDBY_3 when true(ns_St_STANDBY_1))
+      when true(ns_St_STANDBY_2_1));
+  ns_St_STANDBY_3_1_0 =
+    ((ns_St_STANDBY_3 when true(ns_St_STANDBY_1))
+      when false(ns_St_STANDBY_2_1));
+  ns_St_STANDBY_2_1 = (ns_St_STANDBY_2 when true(ns_St_STANDBY_1));
+  ns_St_STANDBY_3_0_1 =
+    ((ns_St_STANDBY_3 when false(ns_St_STANDBY_1))
+      when true(ns_St_STANDBY_2_0));
+  ns_St_STANDBY_3_0_0 =
+    ((ns_St_STANDBY_3 when false(ns_St_STANDBY_1))
+      when false(ns_St_STANDBY_2_0));
+  ns_St_STANDBY_2_0 = (ns_St_STANDBY_2 when false(ns_St_STANDBY_1));
+  ns_St_HEAT_3_1_1 =
+    ((ns_St_HEAT_3 when true(ns_St_HEAT_1)) when true(ns_St_HEAT_2_1));
+  ns_St_HEAT_3_1_0 =
+    ((ns_St_HEAT_3 when true(ns_St_HEAT_1)) when false(ns_St_HEAT_2_1));
+  ns_St_HEAT_2_1 = (ns_St_HEAT_2 when true(ns_St_HEAT_1));
+  ns_St_HEAT_3_0_1 =
+    ((ns_St_HEAT_3 when false(ns_St_HEAT_1)) when true(ns_St_HEAT_2_0));
+  ns_St_HEAT_3_0_0 =
+    ((ns_St_HEAT_3 when false(ns_St_HEAT_1)) when false(ns_St_HEAT_2_0));
+  ns_St_HEAT_2_0 = (ns_St_HEAT_2 when false(ns_St_HEAT_1));
+  ns_St_MAINTAIN_3_1_1 =
+    ((ns_St_MAINTAIN_3 when true(ns_St_MAINTAIN_1))
+      when true(ns_St_MAINTAIN_2_1));
+  ns_St_MAINTAIN_3_1_0 =
+    ((ns_St_MAINTAIN_3 when true(ns_St_MAINTAIN_1))
+      when false(ns_St_MAINTAIN_2_1));
+  ns_St_MAINTAIN_2_1 = (ns_St_MAINTAIN_2 when true(ns_St_MAINTAIN_1));
+  ns_St_MAINTAIN_3_0_1 =
+    ((ns_St_MAINTAIN_3 when false(ns_St_MAINTAIN_1))
+      when true(ns_St_MAINTAIN_2_0));
+  ns_St_MAINTAIN_3_0_0 =
+    ((ns_St_MAINTAIN_3 when false(ns_St_MAINTAIN_1))
+      when false(ns_St_MAINTAIN_2_0));
+  ns_St_MAINTAIN_2_0 = (ns_St_MAINTAIN_2 when false(ns_St_MAINTAIN_1));
+  ns_St_REHEAT_3_1_1 =
+    ((ns_St_REHEAT_3 when true(ns_St_REHEAT_1)) when true(ns_St_REHEAT_2_1));
+  ns_St_REHEAT_3_1_0 =
+    ((ns_St_REHEAT_3 when true(ns_St_REHEAT_1)) when false(ns_St_REHEAT_2_1));
+  ns_St_REHEAT_2_1 = (ns_St_REHEAT_2 when true(ns_St_REHEAT_1));
+  ns_St_REHEAT_3_0_1 =
+    ((ns_St_REHEAT_3 when false(ns_St_REHEAT_1)) when true(ns_St_REHEAT_2_0));
+  ns_St_REHEAT_3_0_0 =
+    ((ns_St_REHEAT_3 when false(ns_St_REHEAT_1))
+      when false(ns_St_REHEAT_2_0));
+  ns_St_REHEAT_2_0 = (ns_St_REHEAT_2 when false(ns_St_REHEAT_1));
+  v_53 = true fby ns_1;
+  v_54 = false fby ns_2;
+  v_55 = false fby ns_3;
+  ck_1_4 = v_53;
+  ck_2 = v_54;
+  ck_3 = v_55;
+  r_St_OFF = if v_8 then true else v_11;
+  s_2_St_OFF_1 = if v_8 then false else v_10_1;
+  s_2_St_OFF_2 = if v_8 then false else v_10_2;
+  s_2_St_OFF_3 = if v_8 then false else v_10_3;
+  v_11 =
+    if v_9
+    then true
+    else (((pnr when true(ck_1_4)) when false(ck_2_1)) when false(ck_3_1_0));
+  v_10_1 = if v_9 then true else true;
+  v_10_2 = if v_9 then true else false;
+  v_10_3 = if v_9 then true else false;
+  v_9 =
+    ((((s when true(ck_1_4)) when false(ck_2_1)) when false(ck_3_1_0)) &
+     (((c when true(ck_1_4)) when false(ck_2_1)) when false(ck_3_1_0)));
+  v_8 =
+    ((((s when true(ck_1_4)) when false(ck_2_1)) when false(ck_3_1_0)) & v_7);
+  v_7 =
+    not((((c when true(ck_1_4)) when false(ck_2_1)) when false(ck_3_1_0)));
+  v_10_3_1_1 = ((v_10_3 when true(v_10_1)) when true(v_10_2_1));
+  v_10_3_1_0 = ((v_10_3 when true(v_10_1)) when false(v_10_2_1));
+  v_10_2_1 = (v_10_2 when true(v_10_1));
+  v_10_3_0_1 = ((v_10_3 when false(v_10_1)) when true(v_10_2_0));
+  v_10_3_0_0 = ((v_10_3 when false(v_10_1)) when false(v_10_2_0));
+  v_10_2_0 = (v_10_2 when false(v_10_1));
+  r_St_STANDBY =
+    if (((c when false(ck_1_4)) when false(ck_2_0)) when false(ck_3_0_0))
+    then true
+    else (((pnr when false(ck_1_4)) when false(ck_2_0)) when false(ck_3_0_0));
+  s_2_St_STANDBY_1 =
+    if (((c when false(ck_1_4)) when false(ck_2_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  s_2_St_STANDBY_2 =
+    if (((c when false(ck_1_4)) when false(ck_2_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  s_2_St_STANDBY_3 =
+    if (((c when false(ck_1_4)) when false(ck_2_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  r_St_HEAT =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then true
+    else v_6;
+  s_2_St_HEAT_1 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then true
+    else v_5_1;
+  s_2_St_HEAT_2 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then false
+    else v_5_2;
+  s_2_St_HEAT_3 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then false
+    else v_5_3;
+  v_6 =
+    if (((temp_ok when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then true
+    else (((pnr when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1));
+  v_5_1 =
+    if (((temp_ok when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then true
+    else true;
+  v_5_2 =
+    if (((temp_ok when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then true
+    else true;
+  v_5_3 =
+    if (((temp_ok when true(ck_1_4)) when true(ck_2_1)) when true(ck_3_1_1))
+    then false
+    else true;
+  v_5_3_1_1 = ((v_5_3 when true(v_5_1)) when true(v_5_2_1));
+  v_5_3_1_0 = ((v_5_3 when true(v_5_1)) when false(v_5_2_1));
+  v_5_2_1 = (v_5_2 when true(v_5_1));
+  v_5_3_0_1 = ((v_5_3 when false(v_5_1)) when true(v_5_2_0));
+  v_5_3_0_0 = ((v_5_3 when false(v_5_1)) when false(v_5_2_0));
+  v_5_2_0 = (v_5_2 when false(v_5_1));
+  r_St_MAINTAIN = if v_2 then true else v_4;
+  s_2_St_MAINTAIN_1 = if v_2 then false else v_3_1;
+  s_2_St_MAINTAIN_2 = if v_2 then false else v_3_2;
+  s_2_St_MAINTAIN_3 = if v_2 then true else v_3_3;
+  v_4 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1))
+    then true
+    else (((pnr when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1));
+  v_3_1 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1))
+    then true
+    else true;
+  v_3_2 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1))
+    then false
+    else true;
+  v_3_3 =
+    if (((f when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1))
+    then false
+    else false;
+  v_2 =
+    ((((cold when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1)) &
+     (((c when true(ck_1_4)) when true(ck_2_1)) when false(ck_3_1_1)));
+  v_3_3_1_1 = ((v_3_3 when true(v_3_1)) when true(v_3_2_1));
+  v_3_3_1_0 = ((v_3_3 when true(v_3_1)) when false(v_3_2_1));
+  v_3_2_1 = (v_3_2 when true(v_3_1));
+  v_3_3_0_1 = ((v_3_3 when false(v_3_1)) when true(v_3_2_0));
+  v_3_3_0_0 = ((v_3_3 when false(v_3_1)) when false(v_3_2_0));
+  v_3_2_0 = (v_3_2 when false(v_3_1));
+  r_St_REHEAT =
+    if (((temp_ok when false(ck_1_4)) when false(ck_2_0))
+         when true(ck_3_0_0))
+    then true
+    else v_1;
+  s_2_St_REHEAT_1 =
+    if (((temp_ok when false(ck_1_4)) when false(ck_2_0))
+         when true(ck_3_0_0))
+    then true
+    else v_1_1;
+  s_2_St_REHEAT_2 =
+    if (((temp_ok when false(ck_1_4)) when false(ck_2_0))
+         when true(ck_3_0_0))
+    then true
+    else v_2_1;
+  s_2_St_REHEAT_3 =
+    if (((temp_ok when false(ck_1_4)) when false(ck_2_0))
+         when true(ck_3_0_0))
+    then false
+    else v_3_4;
+  v_1 =
+    if (((f when false(ck_1_4)) when false(ck_2_0)) when true(ck_3_0_0))
+    then true
+    else (((pnr when false(ck_1_4)) when false(ck_2_0)) when true(ck_3_0_0));
+  v_1_1 =
+    if (((f when false(ck_1_4)) when false(ck_2_0)) when true(ck_3_0_0))
+    then true
+    else false;
+  v_2_1 =
+    if (((f when false(ck_1_4)) when false(ck_2_0)) when true(ck_3_0_0))
+    then false
+    else false;
+  v_3_4 =
+    if (((f when false(ck_1_4)) when false(ck_2_0)) when true(ck_3_0_0))
+    then false
+    else true;
+  v_3_4_1_1 = ((v_3_4 when true(v_1_1)) when true(v_2_1_1));
+  v_3_4_1_0 = ((v_3_4 when true(v_1_1)) when false(v_2_1_1));
+  v_2_1_1 = (v_2_1 when true(v_1_1));
+  v_3_4_0_1 = ((v_3_4 when false(v_1_1)) when true(v_2_1_0));
+  v_3_4_0_0 = ((v_3_4 when false(v_1_1)) when false(v_2_1_0));
+  v_2_1_0 = (v_2_1 when false(v_1_1));
+  v_56 = merge ck_3_1_1 (true -> s_2_St_HEAT_1)(false -> s_2_St_MAINTAIN_1);
+  v_57 = merge ck_3_1_1 (true -> s_2_St_HEAT_2)(false -> s_2_St_MAINTAIN_2);
+  v_58 = merge ck_3_1_1 (true -> s_2_St_HEAT_3)(false -> s_2_St_MAINTAIN_3);
+  v_59 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1_4)) when false(ck_2_1)) when true(ck_3_1_0)))
+      (false -> s_2_St_OFF_1);
+  v_60 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1_4)) when false(ck_2_1)) when true(ck_3_1_0)))
+      (false -> s_2_St_OFF_2);
+  v_61 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1_4)) when false(ck_2_1)) when true(ck_3_1_0)))
+      (false -> s_2_St_OFF_3);
+  v_62 = merge ck_3_0_0 (true -> s_2_St_REHEAT_1)(false -> s_2_St_STANDBY_1);
+  v_63 = merge ck_3_0_0 (true -> s_2_St_REHEAT_2)(false -> s_2_St_STANDBY_2);
+  v_64 = merge ck_3_0_0 (true -> s_2_St_REHEAT_3)(false -> s_2_St_STANDBY_3);
+  v_65 = merge ck_2_1 (true -> v_56)(false -> v_59);
+  v_66 = merge ck_2_1 (true -> v_57)(false -> v_60);
+  v_67 = merge ck_2_1 (true -> v_58)(false -> v_61);
+  v_68 =
+    merge ck_2_0
+      (true -> ((true when false(ck_1_4)) when true(ck_2_0)))(false -> v_62);
+  v_69 =
+    merge ck_2_0
+      (true -> ((true when false(ck_1_4)) when true(ck_2_0)))(false -> v_63);
+  v_70 =
+    merge ck_2_0
+      (true -> ((true when false(ck_1_4)) when true(ck_2_0)))(false -> v_64);
+  s_2_1 = merge ck_1_4 (true -> v_65)(false -> v_68);
+  s_2_2 = merge ck_1_4 (true -> v_66)(false -> v_69);
+  s_2_3 = merge ck_1_4 (true -> v_67)(false -> v_70);
+  v_71 = merge ck_3_1_1 (true -> r_St_HEAT)(false -> r_St_MAINTAIN);
+  v_72 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1_4)) when false(ck_2_1)) when true(ck_3_1_0)))
+      (false -> r_St_OFF);
+  v_73 = merge ck_2_1 (true -> v_71)(false -> v_72);
+  v_74 = merge ck_3_0_0 (true -> r_St_REHEAT)(false -> r_St_STANDBY);
+  v_75 =
+    merge ck_2_0
+      (true -> ((true when false(ck_1_4)) when true(ck_2_0)))(false -> v_74);
+  r = merge ck_1_4 (true -> v_73)(false -> v_75);
+  ck_3_1_1 = ((ck_3 when true(ck_1_4)) when true(ck_2_1));
+  ck_3_1_0 = ((ck_3 when true(ck_1_4)) when false(ck_2_1));
+  ck_2_1 = (ck_2 when true(ck_1_4));
+  ck_3_0_1 = ((ck_3 when false(ck_1_4)) when true(ck_2_0));
+  ck_3_0_0 = ((ck_3 when false(ck_1_4)) when false(ck_2_0));
+  ck_2_0 = (ck_2 when false(ck_1_4));
+  s_2_St_OFF_3_1_1 =
+    ((s_2_St_OFF_3 when true(s_2_St_OFF_1)) when true(s_2_St_OFF_2_1));
+  s_2_St_OFF_3_1_0 =
+    ((s_2_St_OFF_3 when true(s_2_St_OFF_1)) when false(s_2_St_OFF_2_1));
+  s_2_St_OFF_2_1 = (s_2_St_OFF_2 when true(s_2_St_OFF_1));
+  s_2_St_OFF_3_0_1 =
+    ((s_2_St_OFF_3 when false(s_2_St_OFF_1)) when true(s_2_St_OFF_2_0));
+  s_2_St_OFF_3_0_0 =
+    ((s_2_St_OFF_3 when false(s_2_St_OFF_1)) when false(s_2_St_OFF_2_0));
+  s_2_St_OFF_2_0 = (s_2_St_OFF_2 when false(s_2_St_OFF_1));
+  s_2_St_STANDBY_3_1_1 =
+    ((s_2_St_STANDBY_3 when true(s_2_St_STANDBY_1))
+      when true(s_2_St_STANDBY_2_1));
+  s_2_St_STANDBY_3_1_0 =
+    ((s_2_St_STANDBY_3 when true(s_2_St_STANDBY_1))
+      when false(s_2_St_STANDBY_2_1));
+  s_2_St_STANDBY_2_1 = (s_2_St_STANDBY_2 when true(s_2_St_STANDBY_1));
+  s_2_St_STANDBY_3_0_1 =
+    ((s_2_St_STANDBY_3 when false(s_2_St_STANDBY_1))
+      when true(s_2_St_STANDBY_2_0));
+  s_2_St_STANDBY_3_0_0 =
+    ((s_2_St_STANDBY_3 when false(s_2_St_STANDBY_1))
+      when false(s_2_St_STANDBY_2_0));
+  s_2_St_STANDBY_2_0 = (s_2_St_STANDBY_2 when false(s_2_St_STANDBY_1));
+  s_2_St_HEAT_3_1_1 =
+    ((s_2_St_HEAT_3 when true(s_2_St_HEAT_1)) when true(s_2_St_HEAT_2_1));
+  s_2_St_HEAT_3_1_0 =
+    ((s_2_St_HEAT_3 when true(s_2_St_HEAT_1)) when false(s_2_St_HEAT_2_1));
+  s_2_St_HEAT_2_1 = (s_2_St_HEAT_2 when true(s_2_St_HEAT_1));
+  s_2_St_HEAT_3_0_1 =
+    ((s_2_St_HEAT_3 when false(s_2_St_HEAT_1)) when true(s_2_St_HEAT_2_0));
+  s_2_St_HEAT_3_0_0 =
+    ((s_2_St_HEAT_3 when false(s_2_St_HEAT_1)) when false(s_2_St_HEAT_2_0));
+  s_2_St_HEAT_2_0 = (s_2_St_HEAT_2 when false(s_2_St_HEAT_1));
+  s_2_St_MAINTAIN_3_1_1 =
+    ((s_2_St_MAINTAIN_3 when true(s_2_St_MAINTAIN_1))
+      when true(s_2_St_MAINTAIN_2_1));
+  s_2_St_MAINTAIN_3_1_0 =
+    ((s_2_St_MAINTAIN_3 when true(s_2_St_MAINTAIN_1))
+      when false(s_2_St_MAINTAIN_2_1));
+  s_2_St_MAINTAIN_2_1 = (s_2_St_MAINTAIN_2 when true(s_2_St_MAINTAIN_1));
+  s_2_St_MAINTAIN_3_0_1 =
+    ((s_2_St_MAINTAIN_3 when false(s_2_St_MAINTAIN_1))
+      when true(s_2_St_MAINTAIN_2_0));
+  s_2_St_MAINTAIN_3_0_0 =
+    ((s_2_St_MAINTAIN_3 when false(s_2_St_MAINTAIN_1))
+      when false(s_2_St_MAINTAIN_2_0));
+  s_2_St_MAINTAIN_2_0 = (s_2_St_MAINTAIN_2 when false(s_2_St_MAINTAIN_1));
+  s_2_St_REHEAT_3_1_1 =
+    ((s_2_St_REHEAT_3 when true(s_2_St_REHEAT_1))
+      when true(s_2_St_REHEAT_2_1));
+  s_2_St_REHEAT_3_1_0 =
+    ((s_2_St_REHEAT_3 when true(s_2_St_REHEAT_1))
+      when false(s_2_St_REHEAT_2_1));
+  s_2_St_REHEAT_2_1 = (s_2_St_REHEAT_2 when true(s_2_St_REHEAT_1));
+  s_2_St_REHEAT_3_0_1 =
+    ((s_2_St_REHEAT_3 when false(s_2_St_REHEAT_1))
+      when true(s_2_St_REHEAT_2_0));
+  s_2_St_REHEAT_3_0_0 =
+    ((s_2_St_REHEAT_3 when false(s_2_St_REHEAT_1))
+      when false(s_2_St_REHEAT_2_0));
+  s_2_St_REHEAT_2_0 = (s_2_St_REHEAT_2 when false(s_2_St_REHEAT_1));
+  ns_3_1_1 = ((ns_3 when true(ns_1)) when true(ns_2_1));
+  ns_3_1_0 = ((ns_3 when true(ns_1)) when false(ns_2_1));
+  ns_2_1 = (ns_2 when true(ns_1));
+  ns_3_0_1 = ((ns_3 when false(ns_1)) when true(ns_2_0));
+  ns_3_0_0 = ((ns_3 when false(ns_1)) when false(ns_2_0));
+  ns_2_0 = (ns_2 when false(ns_1));
+  s_2_3_1_1 = ((s_2_3 when true(s_2_1)) when true(s_2_2_1));
+  s_2_3_1_0 = ((s_2_3 when true(s_2_1)) when false(s_2_2_1));
+  s_2_2_1 = (s_2_2 when true(s_2_1));
+  s_2_3_0_1 = ((s_2_3 when false(s_2_1)) when true(s_2_2_0));
+  s_2_3_0_0 = ((s_2_3 when false(s_2_1)) when false(s_2_2_0));
+  s_2_2_0 = (s_2_2 when false(s_2_1))
+tel
+
+node onetask(f : bool; s : bool; c : bool; cold : bool; temp_ok : bool)
+returns (s1 : int; p1 : int)
+var v_105 : bool; v_104 : bool; v_103 : bool; v_102 : bool; v_101 : bool;
+    v_100 : bool; v_99 : bool; v_98 : bool; v_97 : bool; v_96 : bool;
+    v_95 : bool; v_94 : bool; v_93 : bool; v_92 : bool; v_91 : bool;
+    v_90 : bool; v_89 : bool; v_88 : bool; v_87 : bool; v_86 : bool;
+    v_85 : int; v_84 : int; v_83 : int; v_82 : int; v_81 : int; v_80 : int;
+    v_79 : int; v_78 : int; v_77 : int; v_76 : int;
+    ns_St_1_REHEAT_2_0 : bool; ns_St_1_REHEAT_3_0_0 : bool;
+    ns_St_1_REHEAT_3_0_1 : bool; ns_St_1_REHEAT_2_1 : bool;
+    ns_St_1_REHEAT_3_1_0 : bool; ns_St_1_REHEAT_3_1_1 : bool;
+    ns_St_1_MAINTAIN_2_0 : bool; ns_St_1_MAINTAIN_3_0_0 : bool;
+    ns_St_1_MAINTAIN_3_0_1 : bool; ns_St_1_MAINTAIN_2_1 : bool;
+    ns_St_1_MAINTAIN_3_1_0 : bool; ns_St_1_MAINTAIN_3_1_1 : bool;
+    ns_St_1_HEAT_2_0 : bool; ns_St_1_HEAT_3_0_0 : bool;
+    ns_St_1_HEAT_3_0_1 : bool; ns_St_1_HEAT_2_1 : bool;
+    ns_St_1_HEAT_3_1_0 : bool; ns_St_1_HEAT_3_1_1 : bool;
+    ns_St_1_STANDBY_2_0 : bool; ns_St_1_STANDBY_3_0_0 : bool;
+    ns_St_1_STANDBY_3_0_1 : bool; ns_St_1_STANDBY_2_1 : bool;
+    ns_St_1_STANDBY_3_1_0 : bool; ns_St_1_STANDBY_3_1_1 : bool;
+    ns_St_1_OFF_2_0 : bool; ns_St_1_OFF_3_0_0 : bool;
+    ns_St_1_OFF_3_0_1 : bool; ns_St_1_OFF_2_1 : bool;
+    ns_St_1_OFF_3_1_0 : bool; ns_St_1_OFF_3_1_1 : bool; ck_2_2_0 : bool;
+    ck_2_3_0_0 : bool; ck_2_3_0_1 : bool; ck_2_2_1 : bool; ck_2_3_1_0 : bool;
+    ck_2_3_1_1 : bool; nr_St_1_REHEAT : bool; ns_St_1_REHEAT_3 : bool;
+    ns_St_1_REHEAT_2 : bool; ns_St_1_REHEAT_1 : bool; p1_1_St_1_REHEAT : int;
+    s1_1_St_1_REHEAT : int; nr_St_1_MAINTAIN : bool;
+    ns_St_1_MAINTAIN_3 : bool; ns_St_1_MAINTAIN_2 : bool;
+    ns_St_1_MAINTAIN_1 : bool; p1_1_St_1_MAINTAIN : int;
+    s1_1_St_1_MAINTAIN : int; nr_St_1_HEAT : bool; ns_St_1_HEAT_3 : bool;
+    ns_St_1_HEAT_2 : bool; ns_St_1_HEAT_1 : bool; p1_1_St_1_HEAT : int;
+    s1_1_St_1_HEAT : int; nr_St_1_STANDBY : bool; ns_St_1_STANDBY_3 : bool;
+    ns_St_1_STANDBY_2 : bool; ns_St_1_STANDBY_1 : bool;
+    p1_1_St_1_STANDBY : int; s1_1_St_1_STANDBY : int; nr_St_1_OFF : bool;
+    ns_St_1_OFF_3 : bool; ns_St_1_OFF_2 : bool; ns_St_1_OFF_1 : bool;
+    p1_1_St_1_OFF : int; s1_1_St_1_OFF : int; ck_2_3 : bool; ck_2_2 : bool;
+    ck_2_1 : bool; v_21_2_0 : bool; v_21_3_0_0 : bool; v_21_3_0_1 : bool;
+    v_21_2_1 : bool; v_21_3_1_0 : bool; v_21_3_1_1 : bool; v_22 : bool;
+    v_21_3 : bool; v_21_2 : bool; v_21_1 : bool; v_20 : bool; v_19 : bool;
+    v_18 : bool; v_16_2_0 : bool; v_16_3_0_0 : bool; v_16_3_0_1 : bool;
+    v_16_2_1 : bool; v_16_3_1_0 : bool; v_16_3_1_1 : bool; v_17 : bool;
+    v_16_3 : bool; v_16_2 : bool; v_16_1 : bool; v_14_2_0 : bool;
+    v_14_3_0_0 : bool; v_14_3_0_1 : bool; v_14_2_1 : bool; v_14_3_1_0 : bool;
+    v_14_3_1_1 : bool; v_15 : bool; v_14_3 : bool; v_14_2 : bool;
+    v_14_1 : bool; v_13 : bool; v_2_0 : bool; v_3_0_0 : bool; v_3_0_1 : bool;
+    v_2_1 : bool; v_3_1_0 : bool; v_3_1_1 : bool; v_12 : bool; v_3 : bool;
+    v_2 : bool; v_1 : bool; v_128 : bool; v_127 : bool; v_126 : bool;
+    v_125 : bool; v_124 : bool; v_123 : bool; v_122 : bool; v_121 : bool;
+    v_120 : bool; v_119 : bool; v_118 : bool; v_117 : bool; v_116 : bool;
+    v_115 : bool; v_114 : bool; v_113 : bool; v_112 : bool; v_111 : bool;
+    v_110 : bool; v_109 : bool; v_108 : bool; v_107 : bool; v_106 : bool;
+    s_3_St_1_REHEAT_2_0 : bool; s_3_St_1_REHEAT_3_0_0 : bool;
+    s_3_St_1_REHEAT_3_0_1 : bool; s_3_St_1_REHEAT_2_1 : bool;
+    s_3_St_1_REHEAT_3_1_0 : bool; s_3_St_1_REHEAT_3_1_1 : bool;
+    s_3_St_1_MAINTAIN_2_0 : bool; s_3_St_1_MAINTAIN_3_0_0 : bool;
+    s_3_St_1_MAINTAIN_3_0_1 : bool; s_3_St_1_MAINTAIN_2_1 : bool;
+    s_3_St_1_MAINTAIN_3_1_0 : bool; s_3_St_1_MAINTAIN_3_1_1 : bool;
+    s_3_St_1_HEAT_2_0 : bool; s_3_St_1_HEAT_3_0_0 : bool;
+    s_3_St_1_HEAT_3_0_1 : bool; s_3_St_1_HEAT_2_1 : bool;
+    s_3_St_1_HEAT_3_1_0 : bool; s_3_St_1_HEAT_3_1_1 : bool;
+    s_3_St_1_STANDBY_2_0 : bool; s_3_St_1_STANDBY_3_0_0 : bool;
+    s_3_St_1_STANDBY_3_0_1 : bool; s_3_St_1_STANDBY_2_1 : bool;
+    s_3_St_1_STANDBY_3_1_0 : bool; s_3_St_1_STANDBY_3_1_1 : bool;
+    s_3_St_1_OFF_2_0 : bool; s_3_St_1_OFF_3_0_0 : bool;
+    s_3_St_1_OFF_3_0_1 : bool; s_3_St_1_OFF_2_1 : bool;
+    s_3_St_1_OFF_3_1_0 : bool; s_3_St_1_OFF_3_1_1 : bool; ck_2_4_0 : bool;
+    ck_3_0_0 : bool; ck_3_0_1 : bool; ck_2_4_1 : bool; ck_3_1_0 : bool;
+    ck_3_1_1 : bool; r_St_1_REHEAT : bool; s_3_St_1_REHEAT_3 : bool;
+    s_3_St_1_REHEAT_2 : bool; s_3_St_1_REHEAT_1 : bool;
+    r_St_1_MAINTAIN : bool; s_3_St_1_MAINTAIN_3 : bool;
+    s_3_St_1_MAINTAIN_2 : bool; s_3_St_1_MAINTAIN_1 : bool;
+    r_St_1_HEAT : bool; s_3_St_1_HEAT_3 : bool; s_3_St_1_HEAT_2 : bool;
+    s_3_St_1_HEAT_1 : bool; r_St_1_STANDBY : bool; s_3_St_1_STANDBY_3 : bool;
+    s_3_St_1_STANDBY_2 : bool; s_3_St_1_STANDBY_1 : bool; r_St_1_OFF : bool;
+    s_3_St_1_OFF_3 : bool; s_3_St_1_OFF_2 : bool; s_3_St_1_OFF_1 : bool;
+    ck_3 : bool; ck_2_4 : bool; ck_1 : bool; s_3_2_0 : bool;
+    s_3_3_0_0 : bool; s_3_3_0_1 : bool; s_3_2_1 : bool; s_3_3_1_0 : bool;
+    s_3_3_1_1 : bool; ns_2_0 : bool; ns_3_0_0 : bool; ns_3_0_1 : bool;
+    ns_2_1 : bool; ns_3_1_0 : bool; ns_3_1_1 : bool; s_3_3 : bool;
+    s_3_2 : bool; s_3_1 : bool; ns_3 : bool; ns_2 : bool; ns_1 : bool;
+    r : bool; nr : bool; pnr : bool; f_1 : bool; s_1 : bool; c_1 : bool;
+    cold_1 : bool; temp_ok_1 : bool; s1_1 : int; p1_1 : int;
+let
+  f_1 = f;
+  s_1 = s;
+  c_1 = c;
+  cold_1 = cold;
+  temp_ok_1 = temp_ok;
+  pnr = false fby nr;
+  ck_2_1 = s_3_1;
+  ck_2_2 = s_3_2;
+  ck_2_3 = s_3_3;
+  s1_1_St_1_OFF = 0;
+  p1_1_St_1_OFF = 0;
+  nr_St_1_OFF = false;
+  ns_St_1_OFF_1 = true;
+  ns_St_1_OFF_2 = false;
+  ns_St_1_OFF_3 = false;
+  s1_1_St_1_STANDBY = 1;
+  p1_1_St_1_STANDBY = 0;
+  nr_St_1_STANDBY = false;
+  ns_St_1_STANDBY_1 = false;
+  ns_St_1_STANDBY_2 = false;
+  ns_St_1_STANDBY_3 = false;
+  s1_1_St_1_HEAT = 2;
+  p1_1_St_1_HEAT = 1500;
+  nr_St_1_HEAT = false;
+  ns_St_1_HEAT_1 = true;
+  ns_St_1_HEAT_2 = true;
+  ns_St_1_HEAT_3 = true;
+  s1_1_St_1_MAINTAIN = 3;
+  p1_1_St_1_MAINTAIN = 300;
+  nr_St_1_MAINTAIN = false;
+  ns_St_1_MAINTAIN_1 = true;
+  ns_St_1_MAINTAIN_2 = true;
+  ns_St_1_MAINTAIN_3 = false;
+  s1_1_St_1_REHEAT = 4;
+  p1_1_St_1_REHEAT = 1000;
+  nr_St_1_REHEAT = false;
+  ns_St_1_REHEAT_1 = false;
+  ns_St_1_REHEAT_2 = false;
+  ns_St_1_REHEAT_3 = true;
+  v_76 =
+    merge ck_2_3_1_1 (true -> s1_1_St_1_HEAT)(false -> s1_1_St_1_MAINTAIN);
+  v_77 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((0 when true(ck_2_1)) when false(ck_2_2_1)) when true(ck_2_3_1_0)))
+      (false -> s1_1_St_1_OFF);
+  v_78 = merge ck_2_2_1 (true -> v_76)(false -> v_77);
+  v_79 =
+    merge ck_2_3_0_0 (true -> s1_1_St_1_REHEAT)(false -> s1_1_St_1_STANDBY);
+  v_80 =
+    merge ck_2_2_0
+      (true -> ((0 when false(ck_2_1)) when true(ck_2_2_0)))(false -> v_79);
+  s1_1 = merge ck_2_1 (true -> v_78)(false -> v_80);
+  v_81 =
+    merge ck_2_3_1_1 (true -> p1_1_St_1_HEAT)(false -> p1_1_St_1_MAINTAIN);
+  v_82 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((0 when true(ck_2_1)) when false(ck_2_2_1)) when true(ck_2_3_1_0)))
+      (false -> p1_1_St_1_OFF);
+  v_83 = merge ck_2_2_1 (true -> v_81)(false -> v_82);
+  v_84 =
+    merge ck_2_3_0_0 (true -> p1_1_St_1_REHEAT)(false -> p1_1_St_1_STANDBY);
+  v_85 =
+    merge ck_2_2_0
+      (true -> ((0 when false(ck_2_1)) when true(ck_2_2_0)))(false -> v_84);
+  p1_1 = merge ck_2_1 (true -> v_83)(false -> v_85);
+  v_86 =
+    merge ck_2_3_1_1 (true -> ns_St_1_HEAT_1)(false -> ns_St_1_MAINTAIN_1);
+  v_87 =
+    merge ck_2_3_1_1 (true -> ns_St_1_HEAT_2)(false -> ns_St_1_MAINTAIN_2);
+  v_88 =
+    merge ck_2_3_1_1 (true -> ns_St_1_HEAT_3)(false -> ns_St_1_MAINTAIN_3);
+  v_89 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((true when true(ck_2_1)) when false(ck_2_2_1))
+          when true(ck_2_3_1_0)))
+      (false -> ns_St_1_OFF_1);
+  v_90 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((true when true(ck_2_1)) when false(ck_2_2_1))
+          when true(ck_2_3_1_0)))
+      (false -> ns_St_1_OFF_2);
+  v_91 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((true when true(ck_2_1)) when false(ck_2_2_1))
+          when true(ck_2_3_1_0)))
+      (false -> ns_St_1_OFF_3);
+  v_92 =
+    merge ck_2_3_0_0 (true -> ns_St_1_REHEAT_1)(false -> ns_St_1_STANDBY_1);
+  v_93 =
+    merge ck_2_3_0_0 (true -> ns_St_1_REHEAT_2)(false -> ns_St_1_STANDBY_2);
+  v_94 =
+    merge ck_2_3_0_0 (true -> ns_St_1_REHEAT_3)(false -> ns_St_1_STANDBY_3);
+  v_95 = merge ck_2_2_1 (true -> v_86)(false -> v_89);
+  v_96 = merge ck_2_2_1 (true -> v_87)(false -> v_90);
+  v_97 = merge ck_2_2_1 (true -> v_88)(false -> v_91);
+  v_98 =
+    merge ck_2_2_0
+      (true -> ((true when false(ck_2_1)) when true(ck_2_2_0)))
+      (false -> v_92);
+  v_99 =
+    merge ck_2_2_0
+      (true -> ((true when false(ck_2_1)) when true(ck_2_2_0)))
+      (false -> v_93);
+  v_100 =
+    merge ck_2_2_0
+      (true -> ((true when false(ck_2_1)) when true(ck_2_2_0)))
+      (false -> v_94);
+  ns_1 = merge ck_2_1 (true -> v_95)(false -> v_98);
+  ns_2 = merge ck_2_1 (true -> v_96)(false -> v_99);
+  ns_3 = merge ck_2_1 (true -> v_97)(false -> v_100);
+  v_101 = merge ck_2_3_1_1 (true -> nr_St_1_HEAT)(false -> nr_St_1_MAINTAIN);
+  v_102 =
+    merge ck_2_3_1_0
+      (true -> 
+        (((true when true(ck_2_1)) when false(ck_2_2_1))
+          when true(ck_2_3_1_0)))
+      (false -> nr_St_1_OFF);
+  v_103 = merge ck_2_2_1 (true -> v_101)(false -> v_102);
+  v_104 = merge ck_2_3_0_0 (true -> nr_St_1_REHEAT)(false -> nr_St_1_STANDBY);
+  v_105 =
+    merge ck_2_2_0
+      (true -> ((true when false(ck_2_1)) when true(ck_2_2_0)))
+      (false -> v_104);
+  nr = merge ck_2_1 (true -> v_103)(false -> v_105);
+  ck_2_3_1_1 = ((ck_2_3 when true(ck_2_1)) when true(ck_2_2_1));
+  ck_2_3_1_0 = ((ck_2_3 when true(ck_2_1)) when false(ck_2_2_1));
+  ck_2_2_1 = (ck_2_2 when true(ck_2_1));
+  ck_2_3_0_1 = ((ck_2_3 when false(ck_2_1)) when true(ck_2_2_0));
+  ck_2_3_0_0 = ((ck_2_3 when false(ck_2_1)) when false(ck_2_2_0));
+  ck_2_2_0 = (ck_2_2 when false(ck_2_1));
+  ns_St_1_OFF_3_1_1 =
+    ((ns_St_1_OFF_3 when true(ns_St_1_OFF_1)) when true(ns_St_1_OFF_2_1));
+  ns_St_1_OFF_3_1_0 =
+    ((ns_St_1_OFF_3 when true(ns_St_1_OFF_1)) when false(ns_St_1_OFF_2_1));
+  ns_St_1_OFF_2_1 = (ns_St_1_OFF_2 when true(ns_St_1_OFF_1));
+  ns_St_1_OFF_3_0_1 =
+    ((ns_St_1_OFF_3 when false(ns_St_1_OFF_1)) when true(ns_St_1_OFF_2_0));
+  ns_St_1_OFF_3_0_0 =
+    ((ns_St_1_OFF_3 when false(ns_St_1_OFF_1)) when false(ns_St_1_OFF_2_0));
+  ns_St_1_OFF_2_0 = (ns_St_1_OFF_2 when false(ns_St_1_OFF_1));
+  ns_St_1_STANDBY_3_1_1 =
+    ((ns_St_1_STANDBY_3 when true(ns_St_1_STANDBY_1))
+      when true(ns_St_1_STANDBY_2_1));
+  ns_St_1_STANDBY_3_1_0 =
+    ((ns_St_1_STANDBY_3 when true(ns_St_1_STANDBY_1))
+      when false(ns_St_1_STANDBY_2_1));
+  ns_St_1_STANDBY_2_1 = (ns_St_1_STANDBY_2 when true(ns_St_1_STANDBY_1));
+  ns_St_1_STANDBY_3_0_1 =
+    ((ns_St_1_STANDBY_3 when false(ns_St_1_STANDBY_1))
+      when true(ns_St_1_STANDBY_2_0));
+  ns_St_1_STANDBY_3_0_0 =
+    ((ns_St_1_STANDBY_3 when false(ns_St_1_STANDBY_1))
+      when false(ns_St_1_STANDBY_2_0));
+  ns_St_1_STANDBY_2_0 = (ns_St_1_STANDBY_2 when false(ns_St_1_STANDBY_1));
+  ns_St_1_HEAT_3_1_1 =
+    ((ns_St_1_HEAT_3 when true(ns_St_1_HEAT_1)) when true(ns_St_1_HEAT_2_1));
+  ns_St_1_HEAT_3_1_0 =
+    ((ns_St_1_HEAT_3 when true(ns_St_1_HEAT_1)) when false(ns_St_1_HEAT_2_1));
+  ns_St_1_HEAT_2_1 = (ns_St_1_HEAT_2 when true(ns_St_1_HEAT_1));
+  ns_St_1_HEAT_3_0_1 =
+    ((ns_St_1_HEAT_3 when false(ns_St_1_HEAT_1)) when true(ns_St_1_HEAT_2_0));
+  ns_St_1_HEAT_3_0_0 =
+    ((ns_St_1_HEAT_3 when false(ns_St_1_HEAT_1))
+      when false(ns_St_1_HEAT_2_0));
+  ns_St_1_HEAT_2_0 = (ns_St_1_HEAT_2 when false(ns_St_1_HEAT_1));
+  ns_St_1_MAINTAIN_3_1_1 =
+    ((ns_St_1_MAINTAIN_3 when true(ns_St_1_MAINTAIN_1))
+      when true(ns_St_1_MAINTAIN_2_1));
+  ns_St_1_MAINTAIN_3_1_0 =
+    ((ns_St_1_MAINTAIN_3 when true(ns_St_1_MAINTAIN_1))
+      when false(ns_St_1_MAINTAIN_2_1));
+  ns_St_1_MAINTAIN_2_1 = (ns_St_1_MAINTAIN_2 when true(ns_St_1_MAINTAIN_1));
+  ns_St_1_MAINTAIN_3_0_1 =
+    ((ns_St_1_MAINTAIN_3 when false(ns_St_1_MAINTAIN_1))
+      when true(ns_St_1_MAINTAIN_2_0));
+  ns_St_1_MAINTAIN_3_0_0 =
+    ((ns_St_1_MAINTAIN_3 when false(ns_St_1_MAINTAIN_1))
+      when false(ns_St_1_MAINTAIN_2_0));
+  ns_St_1_MAINTAIN_2_0 = (ns_St_1_MAINTAIN_2 when false(ns_St_1_MAINTAIN_1));
+  ns_St_1_REHEAT_3_1_1 =
+    ((ns_St_1_REHEAT_3 when true(ns_St_1_REHEAT_1))
+      when true(ns_St_1_REHEAT_2_1));
+  ns_St_1_REHEAT_3_1_0 =
+    ((ns_St_1_REHEAT_3 when true(ns_St_1_REHEAT_1))
+      when false(ns_St_1_REHEAT_2_1));
+  ns_St_1_REHEAT_2_1 = (ns_St_1_REHEAT_2 when true(ns_St_1_REHEAT_1));
+  ns_St_1_REHEAT_3_0_1 =
+    ((ns_St_1_REHEAT_3 when false(ns_St_1_REHEAT_1))
+      when true(ns_St_1_REHEAT_2_0));
+  ns_St_1_REHEAT_3_0_0 =
+    ((ns_St_1_REHEAT_3 when false(ns_St_1_REHEAT_1))
+      when false(ns_St_1_REHEAT_2_0));
+  ns_St_1_REHEAT_2_0 = (ns_St_1_REHEAT_2 when false(ns_St_1_REHEAT_1));
+  v_106 = true fby ns_1;
+  v_107 = false fby ns_2;
+  v_108 = false fby ns_3;
+  ck_1 = v_106;
+  ck_2_4 = v_107;
+  ck_3 = v_108;
+  r_St_1_OFF = if v_19 then true else v_22;
+  s_3_St_1_OFF_1 = if v_19 then false else v_21_1;
+  s_3_St_1_OFF_2 = if v_19 then false else v_21_2;
+  s_3_St_1_OFF_3 = if v_19 then false else v_21_3;
+  v_22 =
+    if v_20
+    then true
+    else (((pnr when true(ck_1)) when false(ck_2_4_1)) when false(ck_3_1_0));
+  v_21_1 = if v_20 then true else true;
+  v_21_2 = if v_20 then true else false;
+  v_21_3 = if v_20 then true else false;
+  v_20 =
+    ((((s_1 when true(ck_1)) when false(ck_2_4_1)) when false(ck_3_1_0)) &
+     (((c_1 when true(ck_1)) when false(ck_2_4_1)) when false(ck_3_1_0)));
+  v_19 =
+    ((((s_1 when true(ck_1)) when false(ck_2_4_1)) when false(ck_3_1_0)) &
+     v_18);
+  v_18 =
+    not((((c_1 when true(ck_1)) when false(ck_2_4_1)) when false(ck_3_1_0)));
+  v_21_3_1_1 = ((v_21_3 when true(v_21_1)) when true(v_21_2_1));
+  v_21_3_1_0 = ((v_21_3 when true(v_21_1)) when false(v_21_2_1));
+  v_21_2_1 = (v_21_2 when true(v_21_1));
+  v_21_3_0_1 = ((v_21_3 when false(v_21_1)) when true(v_21_2_0));
+  v_21_3_0_0 = ((v_21_3 when false(v_21_1)) when false(v_21_2_0));
+  v_21_2_0 = (v_21_2 when false(v_21_1));
+  r_St_1_STANDBY =
+    if (((c_1 when false(ck_1)) when false(ck_2_4_0)) when false(ck_3_0_0))
+    then true
+    else (((pnr when false(ck_1)) when false(ck_2_4_0)) when false(ck_3_0_0));
+  s_3_St_1_STANDBY_1 =
+    if (((c_1 when false(ck_1)) when false(ck_2_4_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  s_3_St_1_STANDBY_2 =
+    if (((c_1 when false(ck_1)) when false(ck_2_4_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  s_3_St_1_STANDBY_3 =
+    if (((c_1 when false(ck_1)) when false(ck_2_4_0)) when false(ck_3_0_0))
+    then true
+    else false;
+  r_St_1_HEAT =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when true(ck_3_1_1))
+    then true
+    else v_17;
+  s_3_St_1_HEAT_1 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when true(ck_3_1_1))
+    then true
+    else v_16_1;
+  s_3_St_1_HEAT_2 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when true(ck_3_1_1))
+    then false
+    else v_16_2;
+  s_3_St_1_HEAT_3 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when true(ck_3_1_1))
+    then false
+    else v_16_3;
+  v_17 =
+    if (((temp_ok_1 when true(ck_1)) when true(ck_2_4_1))
+         when true(ck_3_1_1))
+    then true
+    else (((pnr when true(ck_1)) when true(ck_2_4_1)) when true(ck_3_1_1));
+  v_16_1 =
+    if (((temp_ok_1 when true(ck_1)) when true(ck_2_4_1))
+         when true(ck_3_1_1))
+    then true
+    else true;
+  v_16_2 =
+    if (((temp_ok_1 when true(ck_1)) when true(ck_2_4_1))
+         when true(ck_3_1_1))
+    then true
+    else true;
+  v_16_3 =
+    if (((temp_ok_1 when true(ck_1)) when true(ck_2_4_1))
+         when true(ck_3_1_1))
+    then false
+    else true;
+  v_16_3_1_1 = ((v_16_3 when true(v_16_1)) when true(v_16_2_1));
+  v_16_3_1_0 = ((v_16_3 when true(v_16_1)) when false(v_16_2_1));
+  v_16_2_1 = (v_16_2 when true(v_16_1));
+  v_16_3_0_1 = ((v_16_3 when false(v_16_1)) when true(v_16_2_0));
+  v_16_3_0_0 = ((v_16_3 when false(v_16_1)) when false(v_16_2_0));
+  v_16_2_0 = (v_16_2 when false(v_16_1));
+  r_St_1_MAINTAIN = if v_13 then true else v_15;
+  s_3_St_1_MAINTAIN_1 = if v_13 then false else v_14_1;
+  s_3_St_1_MAINTAIN_2 = if v_13 then false else v_14_2;
+  s_3_St_1_MAINTAIN_3 = if v_13 then true else v_14_3;
+  v_15 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1))
+    then true
+    else (((pnr when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1));
+  v_14_1 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1))
+    then true
+    else true;
+  v_14_2 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1))
+    then false
+    else true;
+  v_14_3 =
+    if (((f_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1))
+    then false
+    else false;
+  v_13 =
+    ((((cold_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1)) &
+     (((c_1 when true(ck_1)) when true(ck_2_4_1)) when false(ck_3_1_1)));
+  v_14_3_1_1 = ((v_14_3 when true(v_14_1)) when true(v_14_2_1));
+  v_14_3_1_0 = ((v_14_3 when true(v_14_1)) when false(v_14_2_1));
+  v_14_2_1 = (v_14_2 when true(v_14_1));
+  v_14_3_0_1 = ((v_14_3 when false(v_14_1)) when true(v_14_2_0));
+  v_14_3_0_0 = ((v_14_3 when false(v_14_1)) when false(v_14_2_0));
+  v_14_2_0 = (v_14_2 when false(v_14_1));
+  r_St_1_REHEAT =
+    if (((temp_ok_1 when false(ck_1)) when false(ck_2_4_0))
+         when true(ck_3_0_0))
+    then true
+    else v_12;
+  s_3_St_1_REHEAT_1 =
+    if (((temp_ok_1 when false(ck_1)) when false(ck_2_4_0))
+         when true(ck_3_0_0))
+    then true
+    else v_1;
+  s_3_St_1_REHEAT_2 =
+    if (((temp_ok_1 when false(ck_1)) when false(ck_2_4_0))
+         when true(ck_3_0_0))
+    then true
+    else v_2;
+  s_3_St_1_REHEAT_3 =
+    if (((temp_ok_1 when false(ck_1)) when false(ck_2_4_0))
+         when true(ck_3_0_0))
+    then false
+    else v_3;
+  v_12 =
+    if (((f_1 when false(ck_1)) when false(ck_2_4_0)) when true(ck_3_0_0))
+    then true
+    else (((pnr when false(ck_1)) when false(ck_2_4_0)) when true(ck_3_0_0));
+  v_1 =
+    if (((f_1 when false(ck_1)) when false(ck_2_4_0)) when true(ck_3_0_0))
+    then true
+    else false;
+  v_2 =
+    if (((f_1 when false(ck_1)) when false(ck_2_4_0)) when true(ck_3_0_0))
+    then false
+    else false;
+  v_3 =
+    if (((f_1 when false(ck_1)) when false(ck_2_4_0)) when true(ck_3_0_0))
+    then false
+    else true;
+  v_3_1_1 = ((v_3 when true(v_1)) when true(v_2_1));
+  v_3_1_0 = ((v_3 when true(v_1)) when false(v_2_1));
+  v_2_1 = (v_2 when true(v_1));
+  v_3_0_1 = ((v_3 when false(v_1)) when true(v_2_0));
+  v_3_0_0 = ((v_3 when false(v_1)) when false(v_2_0));
+  v_2_0 = (v_2 when false(v_1));
+  v_109 =
+    merge ck_3_1_1 (true -> s_3_St_1_HEAT_1)(false -> s_3_St_1_MAINTAIN_1);
+  v_110 =
+    merge ck_3_1_1 (true -> s_3_St_1_HEAT_2)(false -> s_3_St_1_MAINTAIN_2);
+  v_111 =
+    merge ck_3_1_1 (true -> s_3_St_1_HEAT_3)(false -> s_3_St_1_MAINTAIN_3);
+  v_112 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1)) when false(ck_2_4_1)) when true(ck_3_1_0)))
+      (false -> s_3_St_1_OFF_1);
+  v_113 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1)) when false(ck_2_4_1)) when true(ck_3_1_0)))
+      (false -> s_3_St_1_OFF_2);
+  v_114 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1)) when false(ck_2_4_1)) when true(ck_3_1_0)))
+      (false -> s_3_St_1_OFF_3);
+  v_115 =
+    merge ck_3_0_0 (true -> s_3_St_1_REHEAT_1)(false -> s_3_St_1_STANDBY_1);
+  v_116 =
+    merge ck_3_0_0 (true -> s_3_St_1_REHEAT_2)(false -> s_3_St_1_STANDBY_2);
+  v_117 =
+    merge ck_3_0_0 (true -> s_3_St_1_REHEAT_3)(false -> s_3_St_1_STANDBY_3);
+  v_118 = merge ck_2_4_1 (true -> v_109)(false -> v_112);
+  v_119 = merge ck_2_4_1 (true -> v_110)(false -> v_113);
+  v_120 = merge ck_2_4_1 (true -> v_111)(false -> v_114);
+  v_121 =
+    merge ck_2_4_0
+      (true -> ((true when false(ck_1)) when true(ck_2_4_0)))(false -> v_115);
+  v_122 =
+    merge ck_2_4_0
+      (true -> ((true when false(ck_1)) when true(ck_2_4_0)))(false -> v_116);
+  v_123 =
+    merge ck_2_4_0
+      (true -> ((true when false(ck_1)) when true(ck_2_4_0)))(false -> v_117);
+  s_3_1 = merge ck_1 (true -> v_118)(false -> v_121);
+  s_3_2 = merge ck_1 (true -> v_119)(false -> v_122);
+  s_3_3 = merge ck_1 (true -> v_120)(false -> v_123);
+  v_124 = merge ck_3_1_1 (true -> r_St_1_HEAT)(false -> r_St_1_MAINTAIN);
+  v_125 =
+    merge ck_3_1_0
+      (true -> 
+        (((true when true(ck_1)) when false(ck_2_4_1)) when true(ck_3_1_0)))
+      (false -> r_St_1_OFF);
+  v_126 = merge ck_2_4_1 (true -> v_124)(false -> v_125);
+  v_127 = merge ck_3_0_0 (true -> r_St_1_REHEAT)(false -> r_St_1_STANDBY);
+  v_128 =
+    merge ck_2_4_0
+      (true -> ((true when false(ck_1)) when true(ck_2_4_0)))(false -> v_127);
+  r = merge ck_1 (true -> v_126)(false -> v_128);
+  ck_3_1_1 = ((ck_3 when true(ck_1)) when true(ck_2_4_1));
+  ck_3_1_0 = ((ck_3 when true(ck_1)) when false(ck_2_4_1));
+  ck_2_4_1 = (ck_2_4 when true(ck_1));
+  ck_3_0_1 = ((ck_3 when false(ck_1)) when true(ck_2_4_0));
+  ck_3_0_0 = ((ck_3 when false(ck_1)) when false(ck_2_4_0));
+  ck_2_4_0 = (ck_2_4 when false(ck_1));
+  s_3_St_1_OFF_3_1_1 =
+    ((s_3_St_1_OFF_3 when true(s_3_St_1_OFF_1)) when true(s_3_St_1_OFF_2_1));
+  s_3_St_1_OFF_3_1_0 =
+    ((s_3_St_1_OFF_3 when true(s_3_St_1_OFF_1)) when false(s_3_St_1_OFF_2_1));
+  s_3_St_1_OFF_2_1 = (s_3_St_1_OFF_2 when true(s_3_St_1_OFF_1));
+  s_3_St_1_OFF_3_0_1 =
+    ((s_3_St_1_OFF_3 when false(s_3_St_1_OFF_1)) when true(s_3_St_1_OFF_2_0));
+  s_3_St_1_OFF_3_0_0 =
+    ((s_3_St_1_OFF_3 when false(s_3_St_1_OFF_1))
+      when false(s_3_St_1_OFF_2_0));
+  s_3_St_1_OFF_2_0 = (s_3_St_1_OFF_2 when false(s_3_St_1_OFF_1));
+  s_3_St_1_STANDBY_3_1_1 =
+    ((s_3_St_1_STANDBY_3 when true(s_3_St_1_STANDBY_1))
+      when true(s_3_St_1_STANDBY_2_1));
+  s_3_St_1_STANDBY_3_1_0 =
+    ((s_3_St_1_STANDBY_3 when true(s_3_St_1_STANDBY_1))
+      when false(s_3_St_1_STANDBY_2_1));
+  s_3_St_1_STANDBY_2_1 = (s_3_St_1_STANDBY_2 when true(s_3_St_1_STANDBY_1));
+  s_3_St_1_STANDBY_3_0_1 =
+    ((s_3_St_1_STANDBY_3 when false(s_3_St_1_STANDBY_1))
+      when true(s_3_St_1_STANDBY_2_0));
+  s_3_St_1_STANDBY_3_0_0 =
+    ((s_3_St_1_STANDBY_3 when false(s_3_St_1_STANDBY_1))
+      when false(s_3_St_1_STANDBY_2_0));
+  s_3_St_1_STANDBY_2_0 = (s_3_St_1_STANDBY_2 when false(s_3_St_1_STANDBY_1));
+  s_3_St_1_HEAT_3_1_1 =
+    ((s_3_St_1_HEAT_3 when true(s_3_St_1_HEAT_1))
+      when true(s_3_St_1_HEAT_2_1));
+  s_3_St_1_HEAT_3_1_0 =
+    ((s_3_St_1_HEAT_3 when true(s_3_St_1_HEAT_1))
+      when false(s_3_St_1_HEAT_2_1));
+  s_3_St_1_HEAT_2_1 = (s_3_St_1_HEAT_2 when true(s_3_St_1_HEAT_1));
+  s_3_St_1_HEAT_3_0_1 =
+    ((s_3_St_1_HEAT_3 when false(s_3_St_1_HEAT_1))
+      when true(s_3_St_1_HEAT_2_0));
+  s_3_St_1_HEAT_3_0_0 =
+    ((s_3_St_1_HEAT_3 when false(s_3_St_1_HEAT_1))
+      when false(s_3_St_1_HEAT_2_0));
+  s_3_St_1_HEAT_2_0 = (s_3_St_1_HEAT_2 when false(s_3_St_1_HEAT_1));
+  s_3_St_1_MAINTAIN_3_1_1 =
+    ((s_3_St_1_MAINTAIN_3 when true(s_3_St_1_MAINTAIN_1))
+      when true(s_3_St_1_MAINTAIN_2_1));
+  s_3_St_1_MAINTAIN_3_1_0 =
+    ((s_3_St_1_MAINTAIN_3 when true(s_3_St_1_MAINTAIN_1))
+      when false(s_3_St_1_MAINTAIN_2_1));
+  s_3_St_1_MAINTAIN_2_1 =
+    (s_3_St_1_MAINTAIN_2 when true(s_3_St_1_MAINTAIN_1));
+  s_3_St_1_MAINTAIN_3_0_1 =
+    ((s_3_St_1_MAINTAIN_3 when false(s_3_St_1_MAINTAIN_1))
+      when true(s_3_St_1_MAINTAIN_2_0));
+  s_3_St_1_MAINTAIN_3_0_0 =
+    ((s_3_St_1_MAINTAIN_3 when false(s_3_St_1_MAINTAIN_1))
+      when false(s_3_St_1_MAINTAIN_2_0));
+  s_3_St_1_MAINTAIN_2_0 =
+    (s_3_St_1_MAINTAIN_2 when false(s_3_St_1_MAINTAIN_1));
+  s_3_St_1_REHEAT_3_1_1 =
+    ((s_3_St_1_REHEAT_3 when true(s_3_St_1_REHEAT_1))
+      when true(s_3_St_1_REHEAT_2_1));
+  s_3_St_1_REHEAT_3_1_0 =
+    ((s_3_St_1_REHEAT_3 when true(s_3_St_1_REHEAT_1))
+      when false(s_3_St_1_REHEAT_2_1));
+  s_3_St_1_REHEAT_2_1 = (s_3_St_1_REHEAT_2 when true(s_3_St_1_REHEAT_1));
+  s_3_St_1_REHEAT_3_0_1 =
+    ((s_3_St_1_REHEAT_3 when false(s_3_St_1_REHEAT_1))
+      when true(s_3_St_1_REHEAT_2_0));
+  s_3_St_1_REHEAT_3_0_0 =
+    ((s_3_St_1_REHEAT_3 when false(s_3_St_1_REHEAT_1))
+      when false(s_3_St_1_REHEAT_2_0));
+  s_3_St_1_REHEAT_2_0 = (s_3_St_1_REHEAT_2 when false(s_3_St_1_REHEAT_1));
+  p1 = p1_1;
+  s1 = s1_1;
+  ns_3_1_1 = ((ns_3 when true(ns_1)) when true(ns_2_1));
+  ns_3_1_0 = ((ns_3 when true(ns_1)) when false(ns_2_1));
+  ns_2_1 = (ns_2 when true(ns_1));
+  ns_3_0_1 = ((ns_3 when false(ns_1)) when true(ns_2_0));
+  ns_3_0_0 = ((ns_3 when false(ns_1)) when false(ns_2_0));
+  ns_2_0 = (ns_2 when false(ns_1));
+  s_3_3_1_1 = ((s_3_3 when true(s_3_1)) when true(s_3_2_1));
+  s_3_3_1_0 = ((s_3_3 when true(s_3_1)) when false(s_3_2_1));
+  s_3_2_1 = (s_3_2 when true(s_3_1));
+  s_3_3_0_1 = ((s_3_3 when false(s_3_1)) when true(s_3_2_0));
+  s_3_3_0_0 = ((s_3_3 when false(s_3_1)) when false(s_3_2_0));
+  s_3_2_0 = (s_3_2 when false(s_3_1))
+tel
+
