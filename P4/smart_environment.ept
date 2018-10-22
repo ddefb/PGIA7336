@@ -188,8 +188,8 @@ node controller(push_door, push_window, room_presence, lamp_switch, tv_switch, r
 		let
 			rule1 = not room_ocupied  or (lamp_on or tv_on);
 			rule2 = room_ocupied or not (door_open or window_open);
-			rule3 = not (door_open or window_open) or (rad_state <= 2);
-			rule4 = room_ocupied or (not (lamp_on or tv_on) & (rad_state <= 2));
+			rule3 = not (door_open or window_open) or (rad_state <= 1);
+			rule4 = room_ocupied or (not (lamp_on or tv_on) & (rad_state <= 1));
 			total_power = rad_power + wash_power + oven_power;
 			switch policy 
 							| Minimal do rule5 = total_power <= 3000 
