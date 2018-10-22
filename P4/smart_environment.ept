@@ -60,19 +60,19 @@ node radiator(u1, d1, u2, d2, c1, c2: bool) returns (s1,p1:int)
 let
 	automaton
 		state OFF do
-			s1 = 1; p1 = 0;
+			s1 = 0; p1 = 0;
 			unless u1 or not c1 then FROST
 		state FROST do
-		        s1 = 2; p1 = 300;
+		        s1 = 1; p1 = 300;
 			unless u1 & c1 then ECO
 					| d1 or not c1 then OFF 
 					| u2 & c2 then HIGH
 		state ECO do
-		        s1 = 3; p1 = 1500;
+		        s1 = 2; p1 = 1500;
 			unless u2 & c2 then HIGH 
 					| d1 or not c1 then FROST
 		state HIGH do
-			s1 = 4; p1 = 2000;
+			s1 = 3; p1 = 2000;
 			unless d2 or not c2 then FROST 
 					| d1 or not c1 then ECO
 	end 
