@@ -56,7 +56,7 @@ tel
 (*
 	Implementa o comportamento do aquecedor
 *)
-node radiator(u1, d1, u2, d2, c1, c2: bool) returns (s1,p1:int)
+node radiator(u1, d1, u2, d2, c1, c2, c3: bool) returns (s1,p1:int)
 let
 	automaton
 		state OFF do
@@ -65,7 +65,7 @@ let
 		state FROST do
 		        s1 = 1; p1 = 300;
 			unless u1 & c1 then ECO
-					| d1 or not c1 then OFF 
+					| d1 or not c3 then OFF 
 					| u2 & c2 then HIGH
 		state ECO do
 		        s1 = 2; p1 = 1500;
@@ -120,21 +120,6 @@ let
      		state OPEN do
         		window_open = true;
      		unless push or not c then CLOSED
-    	end 
-tel
-
-(*
-	Implementa o comportamento da porta
-*)
-node tv(turn_on, c1, c2: bool) returns (tv_on:bool)
-let
-	automaton
-     		state OFF do
-       			tv_on = false;
-     		unless (turn_on & not c2) or c1 then ON
-     		state ON do
-        		tv_on = true;
-     		unless (turn_on & not c1) or c2 then OFF
     	end 
 tel
 
@@ -199,7 +184,7 @@ node controller(push_door, push_window, room_presence, lamp_switch, tv_switch, r
 		tel
 
 			enforce rule1 & rule2 & rule3 & rule4 & rule5
-			with (c_door, c_window, c_oven, rad_c1, rad_c2, c1_lamp, c1_tv, c2_lamp,  c2_tv, c_wash: bool )
+			with (c_door, c_window, c_oven, rad_c1, rad_c2, rad_c3, c1_lamp, c1_tv, c2_lamp,  c2_tv, c_wash: bool )
 
 		let
 			door_open =  inlined door(push_door, c_door);
@@ -207,7 +192,7 @@ node controller(push_door, push_window, room_presence, lamp_switch, tv_switch, r
 			room_ocupied = inlined room(room_presence);
 			lamp_on =  inlined lamp(lamp_switch, c1_lamp, c2_lamp);
 			tv_on =  inlined lamp(tv_switch, c1_tv, c2_tv);
-			(rad_state, rad_power) = inlined radiator(rad_up1, rad_down1, rad_up2, rad_down2, rad_c1, rad_c2);
+			(rad_state, rad_power) = inlined radiator(rad_up1, rad_down1, rad_up2, rad_down2, rad_c1, rad_c2, rad_c3);
 			(oven_state, oven_power) = inlined oven(oven_finish, oven_start, c_oven, oven_cold, oven_temp_ok);
 			(wash_state, wash_power) = inlined washing_machine(wash_end, wash_start, c_wash);
 			policy = inlined management_policy(eco_input, comfort_input);
