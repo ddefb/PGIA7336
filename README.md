@@ -1,7 +1,8 @@
 ## PGIA7336
-Federal Rural University of Pernambuco.<br/>
-Master's degree programme in Applied Informatics.<br/>
-PGIA7336 Course - Discrete Event System - 2018.2<br/>
+
+<a href="http://ufrpe.br/" target="_blank">Federal Rural University of Pernambuco</a><br/>
+<a href="http://www.ppgia.ufrpe.br/" target="_blank">Master's degree programme in Applied Informatics</a><br/>
+<a href="https://goo.gl/nrmWac" target="_blank">PGIA7336 Course - Discrete Event System - 2018.2<br/>
 
 ---
 
