@@ -1,3 +1,6 @@
+### Clone
+
+- Clone this repo to your local machine using `https://github.com/ddefb/PGIA7336`
 
 ## Setup
 
@@ -15,6 +18,8 @@ $ sudo add-apt-repository ppa:allegro/5.2
 $ sudo apt-get update
 $ sudo apt-get install liballegro5-dev
 ```
+
+## Installation
 
 > go to PGIA7336/P5 folder and run the make command:
 
