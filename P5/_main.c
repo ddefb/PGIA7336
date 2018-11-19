@@ -1,6 +1,3 @@
-/* --- Generated the 1/11/2018 at 10:8 --- */
-/* --- heptagon compiler, version 1.03.00 (compiled thu. may. 3 2:35:29 CET 2018) --- */
-/* --- Command line: /usr/local/bin/heptc -target c -target z3z -s controller smart_environment.ept --- */
 
 #include <stdio.h>
 #include <string.h>
@@ -79,13 +76,13 @@ int initialize() {
     return 0;
   }
 
-  tv_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/sprite_tv.png");
-  lamp_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/sprite_light.png");
-  door_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/sprite_door.png");
-  window_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/sprite_window.png");
-  management_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/management.png");
-  presence_sprite_sheet = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/presence.png");
-  background = al_load_bitmap("/home/osboxes/Documents/dcs/2018.2/PGIA7336/P5/images/planta.png");
+  tv_sprite_sheet = al_load_bitmap("images/sprite_tv.png");
+  lamp_sprite_sheet = al_load_bitmap("images/sprite_light.png");
+  door_sprite_sheet = al_load_bitmap("images/sprite_door.png");
+  window_sprite_sheet = al_load_bitmap("images/sprite_window.png");
+  management_sprite_sheet = al_load_bitmap("images/management.png");
+  presence_sprite_sheet = al_load_bitmap("images/presence.png");
+  background = al_load_bitmap("images/planta.png");
 
   if (!tv_sprite_sheet || !lamp_sprite_sheet || !door_sprite_sheet || !window_sprite_sheet
    || !management_sprite_sheet || !presence_sprite_sheet || !background){
