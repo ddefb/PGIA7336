@@ -1,6 +1,6 @@
 ## About
 
-!cite[179421]
+ZHAO, Mengxuan et al. Discrete Control for the Internet of Things and Smart Environments. In: Feedback Computing. 2013.
 
 ## Clone
 
