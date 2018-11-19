@@ -1,7 +1,7 @@
 
 ### Setup
 
-- For run this project with the stable branch, run this command in you terminal:
+For run this project with the stable branch, run the commands above in you terminal:
 
 > add this repository first:
 
