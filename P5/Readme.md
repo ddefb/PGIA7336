@@ -23,7 +23,7 @@ $ sudo apt-get update
 $ sudo apt-get install liballegro5-dev
 ```
 
-## Installation
+## Build and run
 
 > go to PGIA7336/P5 folder
 
