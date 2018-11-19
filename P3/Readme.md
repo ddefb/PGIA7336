@@ -27,7 +27,7 @@ $ cd ~/PGIA7336/P3
 $ make
 ```
 
-> for build each, run the command above to execute the binary file:
+> for execute each binary file, run the command above:
 
 > for oven:
 ```shell 
