@@ -4,8 +4,6 @@
 <a href="http://www.ppgia.ufrpe.br/" target="_blank">Master's degree programme in Applied Informatics</a><br/>
 <a href="https://goo.gl/nrmWac" target="_blank">PGIA7336 Course - Discrete Event System - 2018.2<br/>
 
----
-
 ## Support
 
 Reach out to me at one of the following places!
