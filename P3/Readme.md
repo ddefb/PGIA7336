@@ -15,22 +15,31 @@ For run this project you need install the Heptagon/BZR and download the Sigali t
 
 ## Build and run the binary file
 
-> go to PGIA7336/P4 folder
+> go to PGIA7336/P3 folder
 
 ```shell
-$ cd ~/PGIA7336/P4
+$ cd ~/PGIA7336/P3
 ```
 
-> and run the make command:
+> for build each *.ept in each folder (oven, radiator, washing_machine), run the make command:
 
 ```shell
 $ make
 ```
 
-> run the command above to execute the binary file:
+> for build each, run the command above to execute the binary file:
 
+> for oven:
 ```shell 
-$ ./_main
+$ ./oven_sim
+```
+> or for radiator:
+```shell 
+$ ./radiator_sim
+```
+> or for washing_machine:
+```shell 
+$ ./washing_machine_sim
 ```
 
 ---
