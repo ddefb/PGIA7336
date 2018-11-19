@@ -1,5 +1,5 @@
 
-### Setup
+## Setup
 
 For run this project with the stable branch, run the commands above in you terminal:
 
@@ -28,3 +28,11 @@ $ make
 $ ./_main
 ```
 
+---
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2018 © <a href="http://ddefb.me/" target="_blank">Diego Bezerra</a>.
