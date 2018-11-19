@@ -30,7 +30,7 @@ $ make
 > run the command above to execute the binary file:
 
 ```shell 
-$ ./_main
+$ ./controller_sim
 ```
 
 ---
