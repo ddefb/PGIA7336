@@ -3,7 +3,7 @@
 <a href="http://ufrpe.br/" target="_blank">Federal Rural University of Pernambuco</a><br/>
 <a href="http://www.ppgia.ufrpe.br/" target="_blank">Master's degree programme in Applied Informatics</a><br/>
 <a href="https://goo.gl/nrmWac" target="_blank">PGIA7336 Course - Discrete Event System - 2018.2</a><br/>
-<a href="https://jualabs.wordpress.com/" target="_blank">Laboratory of Computational Infrastructure Research</a><br/>
+<a href="https://jualabs.wordpress.com/" target="_blank">Computational Infrastructure Research Laboratory</a><br/>
 
 ## Support
 
