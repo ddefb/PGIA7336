@@ -1,6 +1,6 @@
 ## About
 
-This repository presents the reproduction of the scenario presented by <a href="https://www.usenix.org/conference/feedbackcomputing13/workshop-program/presentation/zhao" target="_blank">Zhao et al (2013)</a> paper in <a href="http://heptagon.gforge.inria.fr/pub/heptagon-manual.pdf" target="_blank">BZR language</a>.
+This repository presents a reproduction of the scenario presented by <a href="https://www.usenix.org/conference/feedbackcomputing13/workshop-program/presentation/zhao" target="_blank">Zhao et al (2013)</a> paper in <a href="http://heptagon.gforge.inria.fr/pub/heptagon-manual.pdf" target="_blank">BZR language</a>.
 
 ## Clone
 
