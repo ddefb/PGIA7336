@@ -4,7 +4,7 @@ This repository presents a reproduction of the scenario presented by <a href="ht
 
 ## Screenshot
 
-![Screenshot](https://lh5.googleusercontent.com/TNH27Vv65zma5MBSd564Q3uFfWIwBV-Uv1v9PrdHuxLA7p80RXYGdumVtUalLZO4YyVwuzGVh-y6fnMjIekY=w1358-h578)
+![Screenshot](simulator.png)
 
 ## Clone
 
