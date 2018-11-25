@@ -44,10 +44,10 @@ node controller(h, oi, os, cc: int) returns (bomb_on, valve_on: bool; r: int; th
         tel
 
             enforce rule
-            with (c1_bomb, c1_valve: bool)
+            with (c_bomb, c_valve: bool)
 
         let
-            bomb_on = inlined device(c1_bomb);
-            valve_on = inlined device(c1_valve);
+            bomb_on = inlined device(c_bomb);
+            valve_on = inlined device(c_valve);
             (r, threshold) = inlined threshold_checker(h, oi, os, cc);
         tel
