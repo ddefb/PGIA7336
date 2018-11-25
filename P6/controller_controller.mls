@@ -1,0 +1,86 @@
+node controller_controller_controller_c1_valve(controller_v_7 : bool;
+                                                controller_v_8 : bool;
+                                                controller_v_9 : bool;
+                                                controller_ck_3_1 : bool;
+                                                controller_pnr_2 : bool;
+                                                controller_ck_5_1 : bool;
+                                                controller_pnr_1 : bool;
+                                                controller_ck_7_1 : bool;
+                                                controller_pnr : bool;
+                                                p_controller_c1_valve : bool;
+                                                p_controller_c1_bomb : bool;
+                                                controller_c1_bomb : bool)
+returns (controller_c1_valve : bool)
+var v_11 : bool; v_10 : bool; v_9 : bool; v_8 : bool; v_7 : bool; v_6 : bool;
+    v_5 : bool; v_4 : bool; v_3 : bool; v_2 : bool; v_1 : bool; v : bool;
+    sub_0 : bool; sub_1 : bool; sub_2 : bool;
+let
+  controller_c1_valve = sub_0;
+  sub_2 = (controller_c1_bomb & false);
+  v = (controller_ck_7_1 or false);
+  v_1 = (controller_ck_7_1 & false);
+  sub_1 = if controller_c1_bomb then v else v_1;
+  v_2 = (controller_c1_bomb or false);
+  v_3 = if controller_v_9 then sub_1 else v_2;
+  v_4 = if controller_v_8 then sub_1 else v_3;
+  v_5 = not(controller_ck_7_1);
+  v_6 = (v_5 or false);
+  v_7 = not(controller_ck_7_1);
+  v_8 = (v_7 & false);
+  v_9 = if controller_c1_bomb then v_6 else v_8;
+  v_10 = if controller_v_9 then sub_2 else v_9;
+  v_11 = if controller_v_8 then sub_2 else v_10;
+  sub_0 = if controller_v_7 then v_4 else v_11
+tel
+
+node controller_controller_controller_c1_bomb(controller_v_7 : bool;
+                                               controller_v_8 : bool;
+                                               controller_v_9 : bool;
+                                               controller_ck_3_1 : bool;
+                                               controller_pnr_2 : bool;
+                                               controller_ck_5_1 : bool;
+                                               controller_pnr_1 : bool;
+                                               controller_ck_7_1 : bool;
+                                               controller_pnr : bool;
+                                               p_controller_c1_valve : bool;
+                                               p_controller_c1_bomb : bool)
+returns (controller_c1_bomb : bool)
+var v_17 : bool; v_16 : bool; v_15 : bool; v_14 : bool; v_13 : bool;
+    v_12 : bool; v : bool; sub_0 : bool; sub_1 : bool;
+let
+  controller_c1_bomb = sub_0;
+  sub_1 = controller_ck_7_1;
+  v = not(controller_v_9);
+  v_12 = (v or sub_1);
+  v_13 = if controller_v_8 then sub_1 else v_12;
+  v_14 = not(controller_v_9);
+  v_15 = not(controller_ck_7_1);
+  v_16 = (v_14 & v_15);
+  v_17 = if controller_v_8 then false else v_16;
+  sub_0 = if controller_v_7 then v_13 else v_17
+tel
+
+node controller_controller(controller_v_7 : bool; controller_v_8 : bool;
+                            controller_v_9 : bool; controller_ck_3_1 : bool;
+                            controller_pnr_2 : bool;
+                            controller_ck_5_1 : bool;
+                            controller_pnr_1 : bool;
+                            controller_ck_7_1 : bool; controller_pnr : bool;
+                            p_controller_c1_valve : bool;
+                            p_controller_c1_bomb : bool)
+returns (controller_c1_valve : bool; controller_c1_bomb : bool)
+let
+  controller_c1_bomb =
+    controller_controller_controller_c1_bomb
+    (controller_v_7, controller_v_8, controller_v_9, controller_ck_3_1,
+      controller_pnr_2, controller_ck_5_1, controller_pnr_1,
+      controller_ck_7_1, controller_pnr, p_controller_c1_valve,
+      p_controller_c1_bomb);
+  controller_c1_valve =
+    controller_controller_controller_c1_valve
+    (controller_v_7, controller_v_8, controller_v_9, controller_ck_3_1,
+      controller_pnr_2, controller_ck_5_1, controller_pnr_1,
+      controller_ck_7_1, controller_pnr, p_controller_c1_valve,
+      p_controller_c1_bomb, controller_c1_bomb)
+tel
+

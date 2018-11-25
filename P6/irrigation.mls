@@ -1,0 +1,216 @@
+type st_4 = St_4_ON|St_4_OFF
+type st_3 = St_3_ON|St_3_OFF
+type st_2 = St_2_LOWER_STATE|St_2_HIGHER_STATE
+type st_1 = St_1_ON|St_1_OFF
+type st = St_LOWER_STATE|St_HIGHER_STATE
+type modes = Lower|Higher
+node threshold_checker(h : int; oi : int; os : int; cc : int)
+returns (r : int; mode_1 : bool)
+var nr_St_HIGHER_STATE : bool; ns_St_HIGHER_STATE_1 : bool;
+    mode_St_HIGHER_STATE_1 : bool; r_St_HIGHER_STATE : int;
+    nr_St_LOWER_STATE : bool; ns_St_LOWER_STATE_1 : bool;
+    mode_St_LOWER_STATE_1 : bool; r_St_LOWER_STATE : int; ck_1_1 : bool;
+    v_3 : bool; v_2 : bool; v_1 : bool; v : bool; r_2_St_HIGHER_STATE : bool;
+    s_St_HIGHER_STATE_1 : bool; r_2_St_LOWER_STATE : bool;
+    s_St_LOWER_STATE_1 : bool; ck_1_2 : bool; s_1 : bool; ns_1 : bool;
+    r_2 : bool; nr : bool; pnr : bool;
+let
+  pnr = false fby nr;
+  ck_1_1 = s_1;
+  r_St_LOWER_STATE = (h when false(ck_1_1));
+  mode_St_LOWER_STATE_1 = false;
+  nr_St_LOWER_STATE = false;
+  ns_St_LOWER_STATE_1 = false;
+  r_St_HIGHER_STATE = (h when true(ck_1_1));
+  mode_St_HIGHER_STATE_1 = true;
+  nr_St_HIGHER_STATE = false;
+  ns_St_HIGHER_STATE_1 = true;
+  r = merge ck_1_1 (true -> r_St_HIGHER_STATE)(false -> r_St_LOWER_STATE);
+  mode_1 =
+    merge ck_1_1
+      (true -> mode_St_HIGHER_STATE_1)(false -> mode_St_LOWER_STATE_1);
+  ns_1 =
+    merge ck_1_1 (true -> ns_St_HIGHER_STATE_1)(false -> ns_St_LOWER_STATE_1);
+  nr = merge ck_1_1 (true -> nr_St_HIGHER_STATE)(false -> nr_St_LOWER_STATE);
+  ck_1_2 = false fby ns_1;
+  r_2_St_LOWER_STATE = if v_3 then true else (pnr when false(ck_1_2));
+  s_St_LOWER_STATE_1 = if v_3 then true else false;
+  v_3 = (v_1 or v_2);
+  v_2 = ((h when false(ck_1_2)) >= (cc when false(ck_1_2)));
+  v_1 = ((h when false(ck_1_2)) >= (os when false(ck_1_2)));
+  r_2_St_HIGHER_STATE = if v then true else (pnr when true(ck_1_2));
+  s_St_HIGHER_STATE_1 = if v then false else true;
+  v = ((h when true(ck_1_2)) < (oi when true(ck_1_2)));
+  s_1 =
+    merge ck_1_2 (true -> s_St_HIGHER_STATE_1)(false -> s_St_LOWER_STATE_1);
+  r_2 =
+    merge ck_1_2 (true -> r_2_St_HIGHER_STATE)(false -> r_2_St_LOWER_STATE)
+tel
+
+node device(c : bool) returns (device_on : bool)
+var nr_St_1_ON : bool; ns_St_1_ON_1 : bool; device_on_St_1_ON : bool;
+    nr_St_1_OFF : bool; ns_St_1_OFF_1 : bool; device_on_St_1_OFF : bool;
+    ck_2_1 : bool; v : bool; r_St_1_ON : bool; s_St_1_ON_1 : bool;
+    r_St_1_OFF : bool; s_St_1_OFF_1 : bool; ck_1 : bool; s_1 : bool;
+    ns_1 : bool; r : bool; nr : bool; pnr : bool;
+let
+  pnr = false fby nr;
+  ck_2_1 = s_1;
+  device_on_St_1_OFF = false;
+  nr_St_1_OFF = false;
+  ns_St_1_OFF_1 = true;
+  device_on_St_1_ON = true;
+  nr_St_1_ON = false;
+  ns_St_1_ON_1 = false;
+  device_on =
+    merge ck_2_1 (true -> device_on_St_1_OFF)(false -> device_on_St_1_ON);
+  ns_1 = merge ck_2_1 (true -> ns_St_1_OFF_1)(false -> ns_St_1_ON_1);
+  nr = merge ck_2_1 (true -> nr_St_1_OFF)(false -> nr_St_1_ON);
+  ck_1 = true fby ns_1;
+  r_St_1_OFF = if (c when true(ck_1)) then true else (pnr when true(ck_1));
+  s_St_1_OFF_1 = if (c when true(ck_1)) then false else true;
+  r_St_1_ON = if v then true else (pnr when false(ck_1));
+  s_St_1_ON_1 = if v then true else false;
+  v = not((c when false(ck_1)));
+  s_1 = merge ck_1 (true -> s_St_1_OFF_1)(false -> s_St_1_ON_1);
+  r = merge ck_1 (true -> r_St_1_OFF)(false -> r_St_1_ON)
+tel
+
+node controller(h : int; oi : int; os : int; cc : int)
+returns (bomb_on : bool; valve_on : bool; r : int; threshold_1 : bool)
+contract
+  var v : bool; v_4 : bool; ck_1 : bool; rule_Lower : bool;
+      rule_Higher : bool; rule : bool;
+  let
+    rule = merge ck_1 (false -> rule_Lower)(true -> rule_Higher);
+    v = not((bomb_on when true(ck_1)));
+    v_4 = not((valve_on when true(ck_1)));
+    rule_Higher = (v & v_4);
+    rule_Lower = ((bomb_on when false(ck_1)) & (valve_on when false(ck_1)));
+    ck_1 = threshold_1
+  tel
+  assume true@ enforce rule] with (c1_valve : bool; c1_bomb : bool)
+                 var nr_St_2_HIGHER_STATE : bool;
+                     ns_St_2_HIGHER_STATE_1 : bool;
+                     mode_St_2_HIGHER_STATE_1 : bool;
+                     r_1_St_2_HIGHER_STATE : int; nr_St_2_LOWER_STATE : bool;
+                     ns_St_2_LOWER_STATE_1 : bool;
+                     mode_St_2_LOWER_STATE_1 : bool;
+                     r_1_St_2_LOWER_STATE : int; ck_8_1 : bool; v_10 : bool;
+                     v_9 : bool; v_8 : bool; v_7 : bool;
+                     r_3_St_2_HIGHER_STATE : bool;
+                     s_St_2_HIGHER_STATE_1 : bool;
+                     r_3_St_2_LOWER_STATE : bool;
+                     s_St_2_LOWER_STATE_1 : bool; ck_7_1 : bool;
+                     nr_1_St_3_ON : bool; ns_1_St_3_ON_1 : bool;
+                     device_on_1_St_3_ON : bool; nr_1_St_3_OFF : bool;
+                     ns_1_St_3_OFF_1 : bool; device_on_1_St_3_OFF : bool;
+                     ck_6_1 : bool; v_6 : bool; r_4_St_3_ON : bool;
+                     s_1_St_3_ON_1 : bool; r_4_St_3_OFF : bool;
+                     s_1_St_3_OFF_1 : bool; ck_5_1 : bool;
+                     nr_2_St_4_ON : bool; ns_2_St_4_ON_1 : bool;
+                     device_on_St_4_ON : bool; nr_2_St_4_OFF : bool;
+                     ns_2_St_4_OFF_1 : bool; device_on_St_4_OFF : bool;
+                     ck_4_1 : bool; v_5 : bool; r_5_St_4_ON : bool;
+                     s_2_St_4_ON_1 : bool; r_5_St_4_OFF : bool;
+                     s_2_St_4_OFF_1 : bool; ck_3_1 : bool; s_2_1 : bool;
+                     ns_2_1 : bool; r_5 : bool; nr_2 : bool; pnr_2 : bool;
+                     s_1_1 : bool; ns_1_1 : bool; r_4 : bool; nr_1 : bool;
+                     pnr_1 : bool; s_1_2 : bool; ns_1_2 : bool; r_3 : bool;
+                     nr : bool; pnr : bool; h_1 : int; oi_1 : int;
+                     os_1 : int; cc_1 : int; r_1 : int; mode_1 : bool;
+                     c_1 : bool; device_on_1 : bool; c : bool;
+                     device_on : bool;
+  let
+    h_1 = h;
+    oi_1 = oi;
+    os_1 = os;
+    cc_1 = cc;
+    pnr = false fby nr;
+    ck_8_1 = s_1_2;
+    r_1_St_2_LOWER_STATE = (h_1 when false(ck_8_1));
+    mode_St_2_LOWER_STATE_1 = false;
+    nr_St_2_LOWER_STATE = false;
+    ns_St_2_LOWER_STATE_1 = false;
+    r_1_St_2_HIGHER_STATE = (h_1 when true(ck_8_1));
+    mode_St_2_HIGHER_STATE_1 = true;
+    nr_St_2_HIGHER_STATE = false;
+    ns_St_2_HIGHER_STATE_1 = true;
+    r_1 =
+      merge ck_8_1
+        (true -> r_1_St_2_HIGHER_STATE)(false -> r_1_St_2_LOWER_STATE);
+    mode_1 =
+      merge ck_8_1
+        (true -> mode_St_2_HIGHER_STATE_1)(false -> mode_St_2_LOWER_STATE_1);
+    ns_1_2 =
+      merge ck_8_1
+        (true -> ns_St_2_HIGHER_STATE_1)(false -> ns_St_2_LOWER_STATE_1);
+    nr =
+      merge ck_8_1
+        (true -> nr_St_2_HIGHER_STATE)(false -> nr_St_2_LOWER_STATE);
+    ck_7_1 = false fby ns_1_2;
+    r_3_St_2_LOWER_STATE = if v_10 then true else (pnr when false(ck_7_1));
+    s_St_2_LOWER_STATE_1 = if v_10 then true else false;
+    v_10 = (v_8 or v_9);
+    v_9 = ((h_1 when false(ck_7_1)) >= (cc_1 when false(ck_7_1)));
+    v_8 = ((h_1 when false(ck_7_1)) >= (os_1 when false(ck_7_1)));
+    r_3_St_2_HIGHER_STATE = if v_7 then true else (pnr when true(ck_7_1));
+    s_St_2_HIGHER_STATE_1 = if v_7 then false else true;
+    v_7 = ((h_1 when true(ck_7_1)) < (oi_1 when true(ck_7_1)));
+    s_1_2 =
+      merge ck_7_1
+        (true -> s_St_2_HIGHER_STATE_1)(false -> s_St_2_LOWER_STATE_1);
+    r_3 =
+      merge ck_7_1
+        (true -> r_3_St_2_HIGHER_STATE)(false -> r_3_St_2_LOWER_STATE);
+    c_1 = c1_valve;
+    pnr_1 = false fby nr_1;
+    ck_6_1 = s_1_1;
+    device_on_1_St_3_OFF = false;
+    nr_1_St_3_OFF = false;
+    ns_1_St_3_OFF_1 = true;
+    device_on_1_St_3_ON = true;
+    nr_1_St_3_ON = false;
+    ns_1_St_3_ON_1 = false;
+    device_on_1 =
+      merge ck_6_1
+        (true -> device_on_1_St_3_OFF)(false -> device_on_1_St_3_ON);
+    ns_1_1 = merge ck_6_1 (true -> ns_1_St_3_OFF_1)(false -> ns_1_St_3_ON_1);
+    nr_1 = merge ck_6_1 (true -> nr_1_St_3_OFF)(false -> nr_1_St_3_ON);
+    ck_5_1 = true fby ns_1_1;
+    r_4_St_3_OFF =
+      if (c_1 when true(ck_5_1)) then true else (pnr_1 when true(ck_5_1));
+    s_1_St_3_OFF_1 = if (c_1 when true(ck_5_1)) then false else true;
+    r_4_St_3_ON = if v_6 then true else (pnr_1 when false(ck_5_1));
+    s_1_St_3_ON_1 = if v_6 then true else false;
+    v_6 = not((c_1 when false(ck_5_1)));
+    s_1_1 = merge ck_5_1 (true -> s_1_St_3_OFF_1)(false -> s_1_St_3_ON_1);
+    r_4 = merge ck_5_1 (true -> r_4_St_3_OFF)(false -> r_4_St_3_ON);
+    c = c1_bomb;
+    pnr_2 = false fby nr_2;
+    ck_4_1 = s_2_1;
+    device_on_St_4_OFF = false;
+    nr_2_St_4_OFF = false;
+    ns_2_St_4_OFF_1 = true;
+    device_on_St_4_ON = true;
+    nr_2_St_4_ON = false;
+    ns_2_St_4_ON_1 = false;
+    device_on =
+      merge ck_4_1 (true -> device_on_St_4_OFF)(false -> device_on_St_4_ON);
+    ns_2_1 = merge ck_4_1 (true -> ns_2_St_4_OFF_1)(false -> ns_2_St_4_ON_1);
+    nr_2 = merge ck_4_1 (true -> nr_2_St_4_OFF)(false -> nr_2_St_4_ON);
+    ck_3_1 = true fby ns_2_1;
+    r_5_St_4_OFF =
+      if (c when true(ck_3_1)) then true else (pnr_2 when true(ck_3_1));
+    s_2_St_4_OFF_1 = if (c when true(ck_3_1)) then false else true;
+    r_5_St_4_ON = if v_5 then true else (pnr_2 when false(ck_3_1));
+    s_2_St_4_ON_1 = if v_5 then true else false;
+    v_5 = not((c when false(ck_3_1)));
+    s_2_1 = merge ck_3_1 (true -> s_2_St_4_OFF_1)(false -> s_2_St_4_ON_1);
+    r_5 = merge ck_3_1 (true -> r_5_St_4_OFF)(false -> r_5_St_4_ON);
+    bomb_on = device_on;
+    valve_on = device_on_1;
+    threshold_1 = mode_1;
+    r = r_1
+  tel
+
