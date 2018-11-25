@@ -1,0 +1,53 @@
+
+(*
+    Implements the threshold checker
+*)
+type modes = Lower | Higher
+node threshold_checker(h, oi, os, cc:int) returns (r: int; mode: modes)
+let
+    automaton
+        state LOWER_STATE do
+            r = h;
+            mode = Lower;
+            unless ((h >= os) or (h >= cc)) then HIGHER_STATE 
+        state HIGHER_STATE do
+            r = h;
+            mode = Higher;
+            unless (h < oi) then LOWER_STATE
+    end
+tel
+
+(*
+    Implements the behavior of the devices (bomb and solenoid valve)
+*)
+node device(c1: bool) returns (device_on:bool)
+let
+    automaton
+        state OFF do
+            device_on = false;
+            unless c1 then ON
+        state ON do
+            device_on = true;
+            unless not c1 then OFF
+    end 
+tel
+
+node controller(h, oi, os, cc: int) returns (bomb_on, valve_on: bool; r: int; policy: modes;)
+    contract 
+        var
+            rule: bool;
+        let
+            switch policy 
+                | Lower do rule = bomb_on & valve_on 
+                | Higher do rule = (not bomb_on & not valve_on);
+            end
+        tel
+
+            enforce rule
+            with (c1_bomb, c1_valve: bool)
+
+        let
+            bomb_on = inlined device(c1_bomb);
+            valve_on = inlined device(c1_valve);
+            (r, policy) = inlined threshold_checker(h, oi, os, cc);
+        tel
