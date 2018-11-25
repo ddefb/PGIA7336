@@ -1,4 +1,8 @@
-### Clone
+## About
+
+This repository presents a partial reproduction of the scenario presented by <a href="https://www.sciencedirect.com/science/article/pii/S0168169918302436" target="_blank">Mazon-Olivo et al. (2018)</a>.
+
+## Clone
 
 > clone this repo to your local machine using 
 
@@ -15,7 +19,7 @@ For run this project you need install the Heptagon/BZR and download the Sigali t
 
 ## Build and run the binary file
 
-> go to PGIA7336/P4 folder
+> go to PGIA7336/P6 folder
 
 ```shell
 $ cd ~/PGIA7336/P4
