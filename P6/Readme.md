@@ -22,7 +22,7 @@ For run this project you need install the Heptagon/BZR and download the Sigali t
 > go to PGIA7336/P6 folder
 
 ```shell
-$ cd ~/PGIA7336/P4
+$ cd ~/PGIA7336/P6
 ```
 
 > and run the make command:
