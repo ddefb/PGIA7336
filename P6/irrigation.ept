@@ -2,7 +2,7 @@
 (*
     Implements the threshold checker
 *)
-type modes = Lower | Higher
+type modes = Lower | Higher | Alt
 node threshold_checker(h, oi, os, cc:int) returns (r: int; mode: modes)
 let
     automaton
@@ -32,14 +32,24 @@ let
     end 
 tel
 
-node controller(h, oi, os, cc: int) returns (bomb_on, valve_on: bool; r: int; threshold: modes;)
+node messenger(v:modes) returns (s:bool)
+    var last x:modes = Alt;
+let
+    if v = last x
+    then s = false
+    else x = v; s = true;
+    end
+tel
+
+node controller(h, oi, os, cc: int) returns (bomb_on, valve_on, msg: bool; value: int; threshold: modes;)
     contract 
         var
             rule: bool;
         let
             switch threshold 
                 | Lower do rule = bomb_on & valve_on 
-                | Higher do rule = (not bomb_on & not valve_on);
+                | Higher do rule = (not bomb_on & not valve_on)
+                | Alt do rule = (not bomb_on & not valve_on);
             end
         tel
 
@@ -49,5 +59,6 @@ node controller(h, oi, os, cc: int) returns (bomb_on, valve_on: bool; r: int; th
         let
             bomb_on = inlined device(c_bomb);
             valve_on = inlined device(c_valve);
-            (r, threshold) = inlined threshold_checker(h, oi, os, cc);
+            (value, threshold) = inlined threshold_checker(h, oi, os, cc);
+            msg = messenger(threshold);
         tel
