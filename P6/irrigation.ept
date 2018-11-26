@@ -2,7 +2,7 @@
 (*
     Implements the threshold checker
 *)
-type modes = Lower | Higher | Alt
+type modes = Lower | Higher | Default
 node threshold_checker(h, oi, os, cc:int) returns (r: int; mode: modes)
 let
     automaton
@@ -33,7 +33,7 @@ let
 tel
 
 node messenger(v:modes) returns (s:bool)
-    var last x:modes = Alt;
+    var last x:modes = Default;
 let
     if v = last x
     then s = false
@@ -49,7 +49,7 @@ node controller(h, oi, os, cc: int) returns (bomb_on, valve_on, msg: bool; value
             switch threshold 
                 | Lower do rule = bomb_on & valve_on 
                 | Higher do rule = (not bomb_on & not valve_on)
-                | Alt do rule = (not bomb_on & not valve_on);
+                | Default do rule = (not bomb_on & not valve_on);
             end
         tel
 
