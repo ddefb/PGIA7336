@@ -190,8 +190,8 @@ node controller(push_door, push_window, room_presence, lamp_switch, tv_switch, r
 			door_open =  inlined door(push_door, c_door);
 			window_open =  inlined window(push_window, c_window);
 			room_ocupied = inlined room(room_presence);
-			lamp_on =  inlined lamp(lamp_switch, c1_lamp, c2_lamp);
 			tv_on =  inlined lamp(tv_switch, c1_tv, c2_tv);
+			lamp_on =  inlined lamp(lamp_switch, c1_lamp, c2_lamp);
 			(rad_state, rad_power) = inlined radiator(rad_up1, rad_down1, rad_up2, rad_down2, rad_c1, rad_c2, rad_c3);
 			(oven_state, oven_power) = inlined oven(oven_finish, oven_start, c_oven, oven_cold, oven_temp_ok);
 			(wash_state, wash_power) = inlined washing_machine(wash_end, wash_start, c_wash);

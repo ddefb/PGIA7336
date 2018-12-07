@@ -1,4 +1,3 @@
-
 (*
     Implements the threshold checker
 *)
@@ -61,4 +60,4 @@ node controller(h, oi, os, cc: int) returns (bomb_on, valve_on, msg: bool; value
             valve_on = inlined device(c_valve);
             (value, threshold) = inlined threshold_checker(h, oi, os, cc);
             msg = messenger(threshold);
-        tel
+tel
