@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-r = ['h_var < 30', 'h_var > 50 or h_var > 55', 'h_var = 50']
+# Definindo as regras e as ações
+# As listas deverão ser obtidas em consulta ao banco de dados.
+# Assim, o usuário cadastra previamente as regras e as ações.
+r = ['h_var < 30', 'h_var > 50 or h_var > 55', 't_var = 50']
 a = ['device_bomb & device_valve', 'not device_bomb & not device_valve', 'device_bomb & not device_valve']
-e = [[r[0], a[0]], [r[1], a[1]]]
 
+# Atribuindo um label para cada regra e cada ação
 rules = {}
 for i in range(len(r)):
 	rules['R' + str(i)] = r[i]
@@ -13,25 +16,30 @@ actions = {}
 for i in range(len(a)):
 	actions['A' + str(i)] = a[i]
 
-action_name_expr = []
-rule_name_expr = []
+rule_name_expr = [[r_name, r_expr] for r_name, r_expr in rules.items()]
+action_name_expr = [[a_name, a_expr] for a_name, a_expr in actions.items()]
 
-for r_name, r_expr in rules.items():
-	rule_name_expr.append([r_name, r_expr])
-
-for a_name, a_expr in actions.items():
-	action_name_expr.append([a_name, a_expr])
-
+# Criando os eventos, onde estão associadas cada uma das regras a uma ação.
+# O usuário deve cadastrar os eventos fazendo associações entre as regras existentes e as ações que cadastrou previamente.
 events = [[rule_name_expr[0][0], a[0]], [rule_name_expr[1][0], a[1]], [rule_name_expr[2][0], a[2]]]
 
+# Verificando se cada regra foi associada a uma ação.
+for i in range(len(rule_name_expr)):
+	if not any(rule_name_expr[i][0] in j for j in events):
+		raise Exception('An action was not defined for a rule.')
+
+# Selecionando as variáveis de entrada e saída presentes nas regras e ações
 inputs_var = list(set([s for s in filter (lambda x: 'var' in x, [item for item in r for item in item.split()])]))
 outputs_var = list(set([s for s in filter (lambda x: 'device' in x, [item for item in a for item in item.split()])]))
 
+# Inicia a criação do nodo threshold checker.
+# Criando os tipos baseado na definição de cada regra. R0, R1, R2, ..., Rn.
 modes_str = 'type modes = Initial | ' + " | ".join('%s'%s[0] for s in rule_name_expr) + '\n'
+# Definindo os paramentros de entrada do nodo. Assume-se que ele deverá retornar apenas o tipo ao qual o estado está associado.
 threshold_checker_str = 'node threshold_checker(' + ", ".join('%s'%s for s in inputs_var) + ':int) returns(mode: modes)\n' \
 'let\n' \
 '\tautomaton\n'
-
+# Criando cada estado baseado nos R0, R1, R2, ..., Rn e suas respectivas condições de transição.
 for i in range(len(rule_name_expr)):
 	threshold_checker_str += '\t\tstate ' + rule_name_expr[i][0] + '_STATE' + ' do\n'
 	threshold_checker_str += '\t\t\tmode = ' + rule_name_expr[i][0] + '\n'
@@ -40,6 +48,7 @@ for i in range(len(rule_name_expr)):
 threshold_checker_str += '\tend\n' \
 'tel\n'
 
+# Definindo o nodo device
 device_str = 'node device(c: bool) returns (device_on:bool)\n' \
 'let\n' \
 '\tautomaton\n' \
@@ -52,6 +61,7 @@ device_str = 'node device(c: bool) returns (device_on:bool)\n' \
 '\tend\n' \
 'tel\n'
 
+# Definindo o nodo messenger
 messenger_str = 'node messenger(v:modes) returns (s:bool)\n' \
 'var last x:modes = Initial;\n' \
 'let\n' \
@@ -61,6 +71,10 @@ messenger_str = 'node messenger(v:modes) returns (s:bool)\n' \
     '\tend\n'\
 'tel\n'
 
+# Definindo o nodo de controle
+# Definindo as variáveis de entrada e saída
+# Como entrada serão todas as variáveis definidas pelas regras
+# Como saída estão todas as variáveis que representam as ações, além do nodo de Threshold Cheker e Messenger
 controller_str = 'node controller(' + ", ".join('%s'%s for s in inputs_var) + ':int) returns(' + ", ".join('%s'%s for s in outputs_var) + ', msg: bool;' +' mode: modes)\n' \
 '\tcontract\n' \
 '\t\tvar\n'\
@@ -79,6 +93,7 @@ controller_str = 'node controller(' + ", ".join('%s'%s for s in inputs_var) + ':
 '\t\t\tmsg = messenger(mode);\n'\
 '\t\ttel'
 
+# Escrevendo o código *.ept para a síntese do controlador.
 file = open('irrigation.ept', 'w')
 file.write(modes_str)
 file.write(threshold_checker_str)
