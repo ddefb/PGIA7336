@@ -13,7 +13,7 @@ CC=gcc
 HEPTC=heptc
 HEPTS=hepts
 SIGALI=/home/osboxes/tmc/Sigali-2.4/bin/sigali
-PROG=/home/osboxes/Documents/dcs/2018.2/PGIA7336/P7/ept_generator.py
+PROG=ept_generator.py
 
 HEPT_LIB_C=/usr/local/lib/heptagon/c
 

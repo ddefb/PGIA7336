@@ -25,7 +25,7 @@ events = [[rule_name_expr[0][0], a[0]], [rule_name_expr[1][0], a[1]], [rule_name
 
 # Verificando se cada regra foi associada a uma ação.
 for i in range(len(rule_name_expr)):
-	if not any(rule_name_expr[i][0] in j for j in events):
+	if not any(rule_name_expr[i][0] in e for e in events):
 		raise Exception('An action was not defined for a rule.')
 
 # Selecionando as variáveis de entrada e saída presentes nas regras e ações
