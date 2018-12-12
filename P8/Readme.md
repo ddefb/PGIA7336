@@ -19,10 +19,10 @@ For run this project you need install the Heptagon/BZR and download the Sigali t
 
 ## Build and run the binary file
 
-> go to PGIA7336/P6 folder
+> go to PGIA7336/P8 folder
 
 ```shell
-$ cd ~/PGIA7336/P7
+$ cd ~/PGIA7336/P8
 ```
 
 > generate the irrigation.ept file
