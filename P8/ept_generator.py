@@ -4,29 +4,38 @@
 # Definindo as regras e as ações
 # As listas deverão ser obtidas em consulta ao banco de dados.
 # Assim, o usuário cadastra previamente as regras e as ações.
-r = ['h_var < 30', 'h_var > 50 or h_var > 55', 't_var = 50']
-a = ['device_bomb & device_valve', 'not device_bomb & not device_valve', 'device_bomb & not device_valve']
+# r = ['h_var < 30', 'h_var > 50 or h_var > 55', 't_var = 50']
+# a = ['device_bomb & device_valve', 'not device_bomb & not device_valve', 'device_bomb & not device_valve']
 
-# Atribuindo um label para cada regra e cada ação
-rules = {}
-for i in range(len(r)):
-	rules['R' + str(i)] = r[i]
+# # Atribuindo um label para cada regra e cada ação
+# rules = {}
+# for i in range(len(r)):
+# 	rules['R' + str(i)] = r[i]
 
-actions = {}
-for i in range(len(a)):
-	actions['A' + str(i)] = a[i]
+# actions = {}
+# for i in range(len(a)):
+# 	actions['A' + str(i)] = a[i]
 
-rule_name_expr = [[r_name, r_expr] for r_name, r_expr in rules.items()]
-action_name_expr = [[a_name, a_expr] for a_name, a_expr in actions.items()]
+# rule_name_expr = [[r_name, r_expr] for r_name, r_expr in rules.items()]
+# action_name_expr = [[a_name, a_expr] for a_name, a_expr in actions.items()]
 
-# Criando os eventos, onde estão associadas cada uma das regras a uma ação.
-# O usuário deve cadastrar os eventos fazendo associações entre as regras existentes e as ações que cadastrou previamente.
-events = [[rule_name_expr[0][0], a[0]], [rule_name_expr[1][0], a[1]], [rule_name_expr[2][0], a[2]]]
+# # Criando os eventos, onde estão associadas cada uma das regras a uma ação.
+# # O usuário deve cadastrar os eventos fazendo associações entre as regras existentes e as ações que cadastrou previamente.
+# events = [[rule_name_expr[0][0], a[0]], [rule_name_expr[1][0], a[1]], [rule_name_expr[2][0], a[2]]]
 
-# Verificando se cada regra foi associada a uma ação.
-for i in range(len(rule_name_expr)):
-	if not any(rule_name_expr[i][0] in e for e in events):
-		raise Exception('An action was not defined for a rule.')
+# # Verificando se cada regra foi associada a uma ação.
+# for i in range(len(rule_name_expr)):
+# 	if not any(rule_name_expr[i][0] in e for e in events):
+# 		raise Exception('An action was not defined for a rule.')
+
+import sys
+
+sys.path.insert(0, './database')
+
+import events_repository as ev_rep
+
+events_rep = ev_rep.EventsRepository("postgres", "osboxes.org", "localhost", "teste")
+r, a, events, rule_name_expr, action_name_expr = events_rep.get_rules_actions_events()
 
 # Selecionando as variáveis de entrada e saída presentes nas regras e ações
 inputs_var = list(set([s for s in filter (lambda x: 'var' in x, [item for item in r for item in item.split()])]))
