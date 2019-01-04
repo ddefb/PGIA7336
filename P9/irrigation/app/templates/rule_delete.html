@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h3>Are you sure?</h3>
+{% from "_formhelpers.html" import render_field %}
+<form method=post>
+    <p>
+    	<input name="delete" type=submit value=Delete>
+    	<input name="cancel" type=submit value=Cancel>
+    </p>
+</form>
+
+{% endblock %}

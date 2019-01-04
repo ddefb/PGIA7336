@@ -132,9 +132,8 @@ class EventsRepository(object):
 # else:
 # 	print "Não foi possível inserir evento no banco"
 
-
-
-
-
 # return rules, actions, events
+
+events = EventsRepository("postgres", "osboxes.org", "localhost", "teste")
+print [i for i in events.get_rules_actions_events()]
 

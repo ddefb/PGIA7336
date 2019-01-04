@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+  
+{% block content %}
+  <div class="page-content">
+		  <div class="col-md-10">
+	  			<div class="row">
+	  				<div class="col-md-12">
+	  					<div class="content-box-large">
+			  				<div class="panel-heading">
+					            <div class="panel-title">Actions manager
+					            </div>
+					            <div class="panel-options">
+					            	<button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i> Action</button>
+					            </div>
+					        </div>
+			  				<div class="panel-body">
+
+			  					<div class="table-responsive">
+			  						<table class="table table-striped">
+
+			  							<thead>
+			                				<tr>
+			                  					<th>ID</th>
+			                  					<th>Expression</th>
+			                  					<th></th>
+			                				</tr>
+			              				</thead>
+
+			              				<tbody>
+			  								{% for action in actions %}
+			  									<tr>
+			  										<td>{{ action[0] }}</td>
+ 													<td>{{ action[1].replace("_device", "") }}</td>
+ 													<td class="text-right"><button class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+ 													<button class="btn btn-danger btn-xs" ><i class="glyphicon glyphicon-remove"></i> Delete</button></td>
+ 												</tr>
+ 											{% endfor %}
+ 										</tbody>
+ 									</table>
+ 								</div>
+
+
+
+			  					<!-- <form class="form-horizontal" role="form" method="POST">
+								  <div class="form-group">
+									  <label class="col-md-2 control-label" for="text-field">Action Expression</label>
+									  <div class="col-md-10">
+									  	  <input class="form-control" placeholder="Insert action expression" type="text" for="input_action_expression">
+									  </div>
+								    </div>
+								  <div class="form-actions">
+										<div class="row">
+											<div class="col-md-12">
+												<button id = "btn-cancel-action-expr" class="btn btn-default" type="submit">
+													Cancel
+												</button>
+												<button id = "btn-save-action-expr" class="btn btn-primary" type="submit">
+													<i class="fa fa-save"></i>
+													Save
+												</button>
+											</div>
+										</div>
+									</div>
+								</form> -->
+			  				</div>
+			  			</div>
+	  				</div>
+	  			</div>
+		  </div>
+		</div>
+    </div>
+{% endblock %}
