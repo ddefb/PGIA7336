@@ -1,0 +1,79 @@
+
+/*table {
+    width: 800px;
+    background-color: transparent;
+    border-top:0px;
+    border-bottom:0px;
+}
+
+th {
+	vertical-align: bottom;
+	text-align: center;
+	padding: 8px;
+	
+}
+
+
+td {
+	vertical-align: bottom;
+	text-align: left;
+	border-bottom: 2px solid #ddd;
+	padding: 8px;
+	line-height: 1.428571429;
+}
+
+tr {
+	vertical-align: bottom;
+	text-align: left;
+	border-bottom: 2px solid #ddd;
+	padding: 8px;
+	line-height: 1.428571429;
+}*/
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-bottom: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+table td[class*="edit"],
+table th[class*="del"] {
+  display: table-cell;
+  float: none;
+  width: 20px;
+}
+
+table th[class*="edit"],
+table th[class*="del"],
+table th[class*="id"] {
+	visibility: hidden;
+}
+
+table th[class*="id"]:after {
+	visibility: visible;
+	content: "#"
+}
+
+table > thead > tr > th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > td,
+table > tbody > tr > td,
+table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 0px;
+  border-bottom: 1px solid #dddddd;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+table > tbody > tr:nth-child(odd) > td,
+table > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
