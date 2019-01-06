@@ -1,10 +1,10 @@
 import os
 from app import app
 from db_setup import init_db, db_session
-from forms import RuleForm, ActionForm, RuleSearchForm, ActionSearchForm
+from forms import RuleForm, ActionForm, EventForm, RuleSearchForm, ActionSearchForm, EventSearchForm
 from flask import flash, render_template, request, redirect
-from models import Rules, Actions
-from tables import RulesTable, ActionsTable
+from models import Rules, Actions, Events
+from tables import RulesTable, ActionsTable, EventsTable
 from sqlalchemy.exc import IntegrityError
 
 init_db()
@@ -36,20 +36,12 @@ def rules():
 
 @app.route('/events', methods=['GET', 'POST'])
 def events():
-  
-  rules = rrep.RulesRepository("postgres", "osboxes.org", "localhost", "teste")
-  actions = arep.ActionsRepository("postgres", "osboxes.org", "localhost", "teste")
-  events = erep.EventsRepository("postgres", "osboxes.org", "localhost", "teste")
-
-  events_list = [[e[0], rules.get_rule(e[1]), actions.get_action(e[2])] for e in events.get_all_events_as_list()]
-
-  print events_list
-
-  return render_template('events.html', events = events_list)
+    search = EventSearchForm(request.form)
+    return search_events(search)
 
 @app.route('/about')
 def about():
-  return render_template('about.html')
+    return render_template('about.html')
  
 @app.route('/rule_add', methods=['GET', 'POST'])
 def new_rule():
@@ -289,6 +281,83 @@ def search_actions(search):
 @app.route('/actions_404')
 def actions_404():
 	return render_template('actions/actions_404.html')
+
+
+@app.route('/event_add', methods=['GET', 'POST'])
+def new_event():
+    """
+    Add a new rule
+    """
+    form = EventForm(request.form)
+
+    if request.method == 'POST':
+        if "cancel" in request.form:
+            return redirect('/events')
+        
+        elif "submit" in request.form and form.validate():
+            add_event(form, new=True)
+            flash('Event created successfully!')
+            return redirect('/events')
+            
+            # except IntegrityError as error:
+            #     if "duplicate key value" in str(error):
+            #         # flash('Rule created successfully!')
+            #         print "Event alread exists!"
+
+
+    return render_template('events/event_add.html', form=form)
+
+def add_event(form, new=False):
+    """
+    Save the changes to the database
+    """
+    name = form.name.data
+    rule = form.rule.data
+    action = form.action.data
+
+    event = Events(name, rule, action)
+    event.name = name
+    event.rules_id = rule
+    event.actions_id = action
+
+    if new:
+        # Add the new rule to the database
+        db_session.add(event)
+    else:
+        db_session.execute("update events set rules_id=\'"+rule+"\', actions_id=\'"+action+"\' where name=\'"+str(event.name)+"\';")
+    # commit the data to the database
+    db_session.commit()
+
+
+@app.route('/list_events')
+def search_events(search):
+    results = []
+    search_string = search.data['search']
+
+    if search_string:
+        if search.data['select'] == 'name':
+            qry = db_session.query(Events).filter(
+                Events.name.contains(search_string))
+            results = qry.all()
+        else:
+            qry = db_session.query(Events)
+            results = qry.all()
+    else:
+        qry = db_session.query(Events)
+        results = qry.all()
+    if not results:
+        flash('No results found!')
+        return redirect('/events_404')
+    else:
+        print "============================== tem algo para mostrar", results
+        # display results
+        table = EventsTable(results)
+        table.border = True
+        return render_template('events/event_list.html', table=table)
+
+@app.route('/events_404')
+def events_404():
+    return render_template('events/events_404.html')
 
 
 if __name__ == '__main__':

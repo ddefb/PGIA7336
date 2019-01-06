@@ -36,11 +36,10 @@ class Events(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     name = db.Column(db.String, nullable=False, unique=True)    
-    
     rules_id = db.Column(db.Integer, db.ForeignKey("rules.id"), nullable=False, unique=True)
-    rules = db.relationship("Rules", backref=db.backref("events", order_by=id))
-
     actions_id = db.Column(db.Integer, db.ForeignKey("actions.id"), nullable=False, unique=True)
+
+    rules = db.relationship("Rules", backref=db.backref("events", order_by=id))
     actions = db.relationship("Actions", backref=db.backref("events", order_by=id), lazy=True)
 
     def __init__(self, name, id_rule, id_action):
