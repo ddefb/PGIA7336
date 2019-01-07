@@ -6,6 +6,7 @@ from flask import flash, render_template, request, redirect
 from models import Rules, Actions, Events
 from tables import RulesTable, ActionsTable, EventsTable
 from sqlalchemy.exc import IntegrityError
+from threading import Thread
 
 init_db()
   
@@ -407,14 +408,21 @@ def delete_event(id):
 def events_404():
     return render_template('events/events_404.html')
 
+def exec_webservice():
+    os.system('./webservices_sim')
+
 @app.route('/run_controller')
 def run_controller():
     events = db_session.query(Events).all()
+    
     if events:
         os.system('make ept')
-        # os.system('make')
-        
+        os.system('make')
+        thread = Thread(target = exec_webservice)
+        thread.start()
+
     return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
+    

@@ -3,19 +3,25 @@ SIM_PROG=irrigation
 SIM_MOD=Controller
 SIM_NODE=controller
 CONTRACT_NODE=controller
-
+SIM_WEB=webservices
 # This generic Makefile does not allow contract and simulated node in
 # two different modules (can be two different nodes, though)
 CONTRACT_PROG=$(SIM_PROG)
 CONTRACT_MOD=$(SIM_MOD)
 
+DIR = $(shell pwd)#/home/osboxes/Project2VA/tmc/Pratica05
+
 CC=gcc
 HEPTC=heptc
 HEPTS=hepts
 SIGALI=/home/osboxes/tmc/Sigali-2.4/bin/sigali
-PROG=ept_generator.py
+PROG= $(DIR)/webserver_generator.py
+PROG_EPT=ept_generator.py
 
 HEPT_LIB_C=/usr/local/lib/heptagon/c
+MICRO_HTTP_LIB=/usr/lib/x86_64-linux-gnu/libmicrohttpd.so
+MAIN_DIR = $(DIR)/$(SIM_PROG)_c/
+CONTROLLER_DIR = $(DIR)/$(CONTRACT_NODE)_controller_c/
 
 CTRLR_PROG=$(CONTRACT_NODE)_controller
 
@@ -23,7 +29,7 @@ HEPT_PATH=$(shell pwd)
 
 # Path to C headers
 HEPT_CINCLUDES=
-CFLAGS= $(HEPT_CINCLUDES) -I $(CTRLR_PROG)_c -I $(HEPT_LIB_C)
+CFLAGS= $(HEPT_CINCLUDES) -I $(CTRLR_PROG)_c -I $(HEPT_LIB_C) -pipe
 
 HEPT_SOURCES = $(wildcard *.ept)
 HEPT_MODNAMES = $(patsubst %.ept,%,$(HEPT_SOURCES))
@@ -65,16 +71,22 @@ $(CTRLR_PROG).epci $(CTRLR_PROG)_c/$(CTRLR_PROG).c: $(CTRLR_PROG).ept
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
+sim:
+	python $(PROG) $(SIM_PROG).ept 
+	$(CC) -c  -I $(HEPT_LIB_C) -I $(MAIN_DIR) -I $(CONTROLLER_DIR) -o $(SIM_WEB).o -g -fstack-protector $(SIM_WEB).c
+	$(CC) -o $(SIM_WEB)_sim $(SIM_WEB).o $(MAIN_DIR)/$(SIM_PROG).o $(MICRO_HTTP_LIB) $(CONTROLLER_DIR)/$(CONTRACT_NODE)_controller.o
+
 ept:
-	python $(PROG)
+	python $(PROG_EPT)
 
 clean:
 	rm -fr $(HEPT_C_DIRS) $(HEPT_Z3Z_DIRS) $(HEPT_JAVA_DIRS)
 	rm -f $(SIM_NODE)_sim main.*
 	rm -f *.epci *.mls *.ml *.obc ./*~
 	rm -f $(CTRLR_PROG).ept
-	rm -f $(SIM_PROG).ept
-
+	rm -f *.ept
+	rm -f $(SIM_WEB).c $(SIM_WEB).o $(SIM_WEB)_sim
+	rm -f prog.py.save
 # Dependences
 
 $(HEPT_OBJS) $(SIM_PROG)_c/_main.o: $(CTRLR_C_FILES)

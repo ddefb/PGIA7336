@@ -90,12 +90,12 @@ messenger_str = 'node messenger(v:modes) returns (s:bool)\n' \
 # Definindo as variáveis de entrada e saída
 # Como entrada serão todas as variáveis definidas pelas regras
 # Como saída estão todas as variáveis que representam as ações, além do nodo de Threshold Cheker e Messenger
-controller_str = 'node controller(' + ", ".join('%s'%s for s in inputs_var) + ':int) returns(' + ", ".join('%s'%s for s in outputs_var) + ', msg: bool;' +' mode: modes)\n' \
+controller_str = 'node controller(' + ", ".join('%s'%s for s in inputs_var) + ':int) returns(' + ", ".join('%s'%s for s in outputs_var) + ', msg: bool;' +' modei: modes)\n' \
 '\tcontract\n' \
 '\t\tvar\n'\
 '\t\t\trule: bool;\n'\
 '\t\tlet\n'\
-'\t\t\tswitch mode\n'\
+'\t\t\tswitch modei\n'\
 '\t\t\t\t' + '\n\t\t\t\t| Initial do rule = ' + ' & '.join('not %s'%s for s in outputs_var) + '\n'\
 '\t\t\t\t| ' + '\n\t\t\t\t| '.join('%r do rule = %r' %(r[0], r[1]) for r in events).replace('\'', '') + ';' + '\n'\
 '\t\t\tend\n'\
@@ -104,8 +104,8 @@ controller_str = 'node controller(' + ", ".join('%s'%s for s in inputs_var) + ':
 '\t\t\twith (' + ', '.join('%s_c'%s for s in outputs_var) + ': bool)\n'\
 '\t\tlet\n'\
 '\t\t\t' + '\n\t\t\t'.join('%s = inlined device(%s_c);'%(s, s) for s in outputs_var) + '\n'\
-'\t\t\tmode = inlined threshold_checker(' + ", ".join('%s'%s for s in inputs_var) + ');\n'\
-'\t\t\tmsg = messenger(mode);\n'\
+'\t\t\tmodei = inlined threshold_checker(' + ", ".join('%s'%s for s in inputs_var) + ');\n'\
+'\t\t\tmsg = messenger(modei);\n'\
 '\t\ttel'
 
 # Escrevendo o código *.ept para a síntese do controlador.
