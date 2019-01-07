@@ -31,17 +31,11 @@ def searchForTypes(line):
 
   if line[0:4] == 'type':
     line = line.split(' ')
-    print line
     tipoName = line[1]
-    print 'tipos:', tipoName
     tipoTipos = line[-1].split('|')
-    print tipoTipos
     tipos.append(tipoName)
     tiposEspecias[tipoName] = numBits(len(tipoTipos))
-    print len(tipoTipos)
-    print 'Encontrei:', tipos
-    print 'Encontrei:', tiposEspecias
-
+    
 lines = file.readlines()
 list(map(searchForTypes, lines))
 lines = filter(startWithNode, lines)
@@ -96,8 +90,6 @@ def lineToAutomaton(line):
   
   saidas = ','.join(saidas)
   
-
-    
   saidas = saidas.split(",")
   print (saidas)
   print("----------")
@@ -109,8 +101,6 @@ def lineToAutomaton(line):
 list(map(lineToAutomaton,lines))
 
 task = automatonsList[-1]
-
-
 
 constFunc = fileName[0].upper()+fileName[1:]+"__"+task['name'] 
 
@@ -268,7 +258,4 @@ file.close()
 file2=open('webservices.c','w')
 file2.write(webservice)
 file2.close()
-
-# createWebClientHtml(task)
-# createWebClientFlask(task)
 
