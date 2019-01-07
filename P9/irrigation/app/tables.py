@@ -15,9 +15,9 @@ class ActionsTable(Table):
     delete = LinkCol('delete', 'delete_action', url_kwargs=dict(id='id'), anchor_attrs={'class': "btn btn-danger btn-xs",}, td_html_attrs={'class': 'del'}, th_html_attrs={'class': 'del'})
 
 class EventsTable(Table):
-    id = Col('id', show=True, th_html_attrs={'class': 'id'})
+    id = Col('id', show=True)
     name = Col('name')
-    rule = Col('rules_id')
-    action = Col('actions_id')
-    edit = LinkCol('edit', 'edit_event', url_kwargs=dict(id='id'), anchor_attrs={'class': "btn btn-primary btn-xs",}, td_html_attrs={'class': 'edit'}, th_html_attrs={'class': 'edit'})
-    delete = LinkCol('delete', 'delete_event', url_kwargs=dict(id='id'), anchor_attrs={'class': "btn btn-danger btn-xs",}, td_html_attrs={'class': 'del'}, th_html_attrs={'class': 'del'})
+    rule = Col('rule')
+    action = Col('action')
+    edit = LinkCol('edit', 'edit_event', url_kwargs=dict(id='id'))
+    delete = LinkCol('delete', 'delete_event', url_kwargs=dict(id='id'))

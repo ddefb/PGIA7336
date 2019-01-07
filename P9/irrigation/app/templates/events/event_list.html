@@ -16,7 +16,30 @@
 							</div>
 						</div>
 						<div class="panel-body">
-							{{ table }}
+							<table>
+								<thead>
+									<tr>
+										<th class="id">id</th>
+										<th>name</th>
+										<th>rule</th>
+										<th>action</th>
+										<th class="edit">edit</th>
+										<th class="del">delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for row in results %}
+    									<tr>
+    										<td>{{ row.id }}</td>
+    										<td>{{ row.name }}</td>
+    										<td>{{ row.rules_id }}</td>
+    										<td>{{ row.actions_id }}</td>
+    										<td class="edit"><a href = {{ url_for('edit_event', id=row.id) }}><button class="btn btn-primary btn-xs">Edit</button></a></td>
+    										<td class="del"><a href = {{ url_for('delete_event', id=row.id) }}><button class="btn btn-danger btn-xs">Delete</button></a></td>
+    									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
  						</div>
 			  		</div>
 			  	</div>

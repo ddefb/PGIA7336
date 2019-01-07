@@ -39,7 +39,7 @@ class Events(db.Model):
     rules_id = db.Column(db.Integer, db.ForeignKey("rules.id"), nullable=False, unique=True)
     actions_id = db.Column(db.Integer, db.ForeignKey("actions.id"), nullable=False, unique=True)
 
-    rules = db.relationship("Rules", backref=db.backref("events", order_by=id))
+    rules = db.relationship("Rules", backref=db.backref("events", order_by=id), lazy=True)
     actions = db.relationship("Actions", backref=db.backref("events", order_by=id), lazy=True)
 
     def __init__(self, name, id_rule, id_action):
