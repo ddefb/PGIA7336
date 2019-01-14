@@ -54,8 +54,10 @@ def lineToAutomaton(line):
   entradas = entradas.split(":")[0]
   entradas = entradas.split(",")
   print (entradas)
+
   def tirarEspacos(x):
     return x.strip()
+
   entradas = list(map(tirarEspacos,entradas))
   saidas = line[1].strip()[1:-1]
   print (saidas)
@@ -90,7 +92,9 @@ def lineToAutomaton(line):
   
   saidas = ','.join(saidas)
   
+  
   saidas = saidas.split(",")
+  saidas = [i.replace(" ", "") for i in saidas]
   print (saidas)
   print("----------")
 
@@ -102,7 +106,7 @@ list(map(lineToAutomaton,lines))
 
 task = automatonsList[-1]
 
-constFunc = fileName[0].upper()+fileName[1:]+"__"+task['name'] 
+constFunc = fileName[0].upper() + fileName[1:] + "__" + task['name'] 
 
 mem = constFunc+"_mem mem;"
 out = constFunc+"_out _res;"
@@ -115,11 +119,9 @@ def concateDec(x):
   global declaracoes
   declaracoes = declaracoes+"int %s;"%(x)
 
-
 list(map(concateDec,task['entradas']))
 
 ifs = ""
-
 
 def concateIf(x):
   global ifs
@@ -141,7 +143,8 @@ def concateRes(x):
   global resposta
   string1 = 'strcat(json, ", \''+x
   string2 = '\':");' 
-  resposta+= string1+string2+'sprintf(aux, "%d", _res.'+x+');strcat(json, aux);'
+  resposta += string1 + string2 + 'sprintf(aux, "%d", _res.'+x+');strcat(json, aux);'
+  resposta.replace("{,", "{")  
   
 list(map(concateRes,task['saidas']))
 

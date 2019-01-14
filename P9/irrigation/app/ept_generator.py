@@ -44,8 +44,8 @@ for i in range(len(rule_name_expr)):
 		raise Exception('An action was not defined for a rule.')
 
 # Selecionando as variáveis de entrada e saída presentes nas regras e ações
-inputs_var = list(set([s for s in filter (lambda x: 'var' in x, [item for item in r for item in item.split()])]))
-outputs_var = list(set([s for s in filter (lambda x: 'device' in x, [item for item in a for item in item.split()])]))
+inputs_var = list(set([s.replace(" ", "") for s in filter (lambda x: 'var' in x, [item for item in r for item in item.split()])]))
+outputs_var = list(set([s.replace(" ", "") for s in filter (lambda x: 'device' in x, [item for item in a for item in item.split()])]))
 
 # Inicia a criação do nodo threshold checker.
 # Criando os tipos baseado na definição de cada regra. R0, R1, R2, ..., Rn.

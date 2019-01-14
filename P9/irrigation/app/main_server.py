@@ -7,6 +7,8 @@ from models import Rules, Actions, Events
 from tables import RulesTable, ActionsTable, EventsTable
 from sqlalchemy.exc import IntegrityError
 from threading import Thread
+import sys
+import signal
 
 init_db()
   
@@ -325,7 +327,7 @@ def add_event(form, new=False):
         # Add the new rule to the database
         db_session.add(event)
     else:
-        db_session.execute("update events set rules_id=\'"+rule+"\', actions_id=\'"+action+"\' where name=\'"+str(event.name)+"\';")
+        db_session.execute("update events set rules_id=\'"+rule.id+"\', actions_id=\'"+action.id+"\' where name=\'"+str(event.name)+"\';")
     # commit the data to the database
     db_session.commit()
 
@@ -413,16 +415,40 @@ def exec_webservice():
 
 @app.route('/run_controller')
 def run_controller():
+
+    thread = Thread(target = exec_webservice)
     events = db_session.query(Events).all()
+    thread_started = []
+
+    if thread_started:
+        thread.join()
+        os.system('make clean')
+
+    os.system('make clean')
     
     if events:
         os.system('make ept')
         os.system('make')
         thread = Thread(target = exec_webservice)
-        thread.start()
+        thread_started = thread.start()
 
     return render_template('home.html')
 
+def handler(signal, frame):
+    # os.system('make clean')
+    os.system('make clean')
+    os.system('pkill -9 python')
+    # print('CTRL-C pressed!')
+    # sys.exit(0)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    signal.signal(signal.SIGINT, handler)
+    try:
+        app.run(debug=True)
+
+    except (KeyboardInterrupt, SystemExit):
+        print "interrupted"
+    
+        # report error and proceed
+    
     

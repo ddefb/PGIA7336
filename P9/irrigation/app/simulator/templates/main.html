@@ -1,0 +1,21 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+
+{% block title %}
+Simulador
+{% endblock%}
+{%block content%}
+<div class="container">
+    <h1>Simulador</h1>
+    <form method="POST" action="main">
+        {{ main.csrf_token }}
+        {{ wtf.form_field(main.menorTemperatura, placeholder="Ex: teste-fnl") }}
+        {{ wtf.form_field(main.maiorTemperatura, placeholder="Ex: 1048576") }}
+        <input type="submit" class="btn btn-primary" value="Set configuração">
+    </form>
+    <br/>
+    <form method="POST" action="simulador">
+        <input class="btn btn-primary" type="submit" value="Simulador">
+    </form>
+</div>
+{% endblock%}
