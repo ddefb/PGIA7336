@@ -9,8 +9,7 @@
 
 Reach out to me at one of the following places!
 
-- Website at <a href="http://ddefb.me/" target="_blank">`ddefb.me`</a>
-- Twitter at <a href="https://twitter.com/DB556IA2" target="_blank">`@DB556IA2`</a>
+- Twitter at <a href="https://twitter.com/ddefb" target="_blank">`@ddefb`</a>
 
 ## License
 
